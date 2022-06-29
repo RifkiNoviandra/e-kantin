@@ -17,15 +17,28 @@ class dataController extends Controller
         ]);
     }
 
+    function getUserById(Request $request , $id){
+        $data = User::where('id' , $id)->get();
+
+        return response([
+            'data' => $data
+        ]);
+    }
+
     function create(Request $request){
         $validate = $request->validate([
             'username' => 'required',
             'password' => 'required',
             'name' => 'required',
             'number' => 'required',
+            'identity_as' => 'required'
         ]);
 
-        $input = $request->only('username' , 'name' , 'number');
+        $input = $request->only('username' , 'name' , 'number' , 'identity_as');
+
+        if($request->balance){
+            $input['balance'] = $request->balance;
+        }
 
         $password = $request->password;
 
@@ -53,7 +66,6 @@ class dataController extends Controller
     function update(Request $request , $id){
         $validate = $request->validate([
             'username' => 'required',
-            'password' => 'required',
             'name' => 'required',
             'number' => 'required',
         ]);

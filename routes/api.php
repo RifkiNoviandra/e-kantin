@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Menu\dataController as MenuDataController;
 use App\Http\Controllers\Admin\Store\dataController as StoreDataController;
 use App\Http\Controllers\Admin\User\dataController;
 use App\Http\Controllers\Auth\authController;
@@ -55,5 +56,15 @@ Route::prefix('admin')->group(function(){
         Route::post('/data', [StoreDataController::class, 'create']);
         Route::post('/data/{id}', [StoreDataController::class, 'update']);
         Route::delete('/data/{id}', [StoreDataController::class, 'delete']);
+
+        Route::get('/menu/{store_id}' , [MenuDataController::class , 'getMenuByStore']);
+    });
+
+    Route::prefix('/menu')->group(function () {
+        Route::get('/data', [MenuDataController::class, 'getMenu']);
+        Route::get('/data/{id}' , [MenuDataController::class , 'getMenuById']);
+        Route::post('/data', [MenuDataController::class, 'create']);
+        Route::put('/data/{id}', [MenuDataController::class, 'update']);
+        Route::delete('/data/{id}', [MenuDataController::class, 'delete']);
     });
 });

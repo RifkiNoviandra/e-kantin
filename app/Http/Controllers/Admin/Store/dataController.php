@@ -34,6 +34,12 @@ class dataController extends Controller
 
         $input['password'] = Hash::make($request->password);
 
+        if(isset($request->status)){
+            $input['status'] = '1';
+        }else{
+            $input['status'] = '2';
+        }
+
         if (!$validate) {
             return response([
                 'message' => 'Empty Field'
