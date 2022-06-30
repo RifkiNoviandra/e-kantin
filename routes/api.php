@@ -29,6 +29,7 @@ Route::prefix('client')->group(function () {
         Route::post('login', [authController::class, 'Storelogin']);
         Route::post('logout/{id}', [authController::class, 'Storelogout']);
         Route::post('transaction/accept', [StoreTransactionController::class, 'acceptTransactionComplete']);
+        Route::post('transaction/{id}', [StoreTransactionController::class, 'listTransaction']);
     });
 
     Route::prefix('user')->group(function () {
