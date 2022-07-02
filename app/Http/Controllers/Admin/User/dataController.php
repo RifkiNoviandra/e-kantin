@@ -12,6 +12,10 @@ class dataController extends Controller
     function getUSer(){
         $data = User::all();
 
+        foreach ($data as $key => $value) {
+            $value->profile_image = asset('/images' . $value->profile_image);
+        }
+
         return response([
             'data' => $data
         ]);
@@ -19,6 +23,8 @@ class dataController extends Controller
 
     function getUserById(Request $request , $id){
         $data = User::where('id' , $id)->get();
+
+        $data->profile_image = asset('/images' . $data->profile_image);
 
         return response([
             'data' => $data
