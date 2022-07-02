@@ -13,6 +13,10 @@ class dataController extends Controller
     {
         $data = Store::all();
 
+        foreach ($data as $key => $value) {
+            $value->image = asset('images/' . $value->image);
+        }
+
         return response([
             'data' => $data
         ]);
@@ -26,6 +30,7 @@ class dataController extends Controller
             'owner' => 'required',
             'name' => 'required',
             'number' => 'required',
+            'image' => 'required'
         ]);
 
         $input = $request->only('username', 'name', 'owner', 'number');
@@ -33,6 +38,20 @@ class dataController extends Controller
         $input['unique_id'] = md5($input['username']);
 
         $input['password'] = Hash::make($request->password);
+
+        $files = $request->file('image');
+        $ext = ['jpg', 'jpeg', 'png', 'gif', 'svg' , 'jfif'];
+        $file_ext = $files->getClientOriginalExtension();
+
+        if (in_array($file_ext, $ext)) {
+            $name = date("Y-m-d").$files->getClientOriginalName();
+            $input['image'] = $name;
+            $request->image->move(public_path() . "/images", $name);
+        } else {
+            return response([
+                'message' => 'file extension doesnt meet the requirement'
+            ]);
+        }
 
         if(isset($request->status)){
             $input['status'] = '1';
@@ -83,6 +102,23 @@ class dataController extends Controller
         }
 
         $data = Store::where('id', $id)->first();
+
+        if ($files = $request->file('image')) {
+            $ext = ['jpg', 'jpeg', 'png', 'gif', 'svg' , 'jfif'];
+            $file_ext = $files->getClientOriginalExtension();
+
+            if (in_array($file_ext, $ext)) {
+                $name = date("Y-m-d").$files->getClientOriginalName();
+                $input['image'] = $name;
+                $files->move(public_path() . "/images", $name);
+            } else {
+                return response([
+                    'message' => 'file extension doesnt meet the requirement'
+                ]);
+            }
+        } else {
+            $input['image'] = $data->image;
+        }
 
         if (!$data) {
             return response([

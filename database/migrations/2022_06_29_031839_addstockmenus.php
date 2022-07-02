@@ -14,7 +14,7 @@ class Addstockmenus extends Migration
     public function up()
     {
         Schema::table('menus' , function(Blueprint $table){
-            $table->integer('stock');
+            $table->integer('stock')->default(0);
         });
     }
 
