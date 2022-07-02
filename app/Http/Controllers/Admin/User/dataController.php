@@ -32,10 +32,11 @@ class dataController extends Controller
             'name' => 'required',
             'number' => 'required',
             'identity_as' => 'required',
-            'image' => 'required'
+            'image' => 'required',
+            'status' => ' required'
         ]);
 
-        $input = $request->only('username' , 'name' , 'number' , 'identity_as');
+        $input = $request->only('username' , 'name' , 'number' , 'identity_as' , 'status');
 
         if($request->balance){
             $input['balance'] = $request->balance;
