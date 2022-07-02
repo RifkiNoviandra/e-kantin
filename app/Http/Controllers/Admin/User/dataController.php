@@ -31,13 +31,28 @@ class dataController extends Controller
             'password' => 'required',
             'name' => 'required',
             'number' => 'required',
-            'identity_as' => 'required'
+            'identity_as' => 'required',
+            'image' => 'required'
         ]);
 
         $input = $request->only('username' , 'name' , 'number' , 'identity_as');
 
         if($request->balance){
             $input['balance'] = $request->balance;
+        }
+
+        $files = $request->file('image');
+        $ext = ['jpg', 'jpeg', 'png', 'gif', 'svg' , 'jfif'];
+        $file_ext = $files->getClientOriginalExtension();
+
+        if (in_array($file_ext, $ext)) {
+            $name = date("Y-m-d")."_".$input['username'].$files->getClientOriginalName();
+            $input['profile_image'] = $name;
+            $request->image->move(public_path() . "/images", $name);
+        } else {
+            return response([
+                'message' => 'file extension doesnt meet the requirement'
+            ]);
         }
 
         $password = $request->password;
@@ -81,6 +96,23 @@ class dataController extends Controller
         }
 
         $data = User::where('id' , $id)->first();
+
+        if ($files = $request->file('image')) {
+            $ext = ['jpg', 'jpeg', 'png', 'gif', 'svg' , 'jfif'];
+            $file_ext = $files->getClientOriginalExtension();
+
+            if (in_array($file_ext, $ext)) {
+                $name = date("Y-m-d")."".$input['username'].$files->getClientOriginalName();
+                $input['profile_image'] = $name;
+                $files->move(public_path() . "/images", $name);
+            } else {
+                return response([
+                    'message' => 'file extension doesnt meet the requirement'
+                ]);
+            }
+        } else {
+            $input['profile_image'] = $data->image;
+        }
 
         if(!$data){
             return response([
