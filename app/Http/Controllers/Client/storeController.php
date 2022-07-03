@@ -41,7 +41,11 @@ class storeController extends Controller
 
     function getMenuBySearch(Request $request){
 
-        $params = $request->parameter;
+        $request->validate([
+            'params' => 'required'
+        ]);
+
+        $params = $request->params;
 
         $data = Menu::where('name' , 'LIKE' , '%'.$params.'%')->get();
 
