@@ -38,7 +38,7 @@ class dataController extends Controller
     }
 
     public function getMenuByStore(Request $request , $store_id){
-        $data = Menu::where('store_id' , $store_id)->get();
+        $data = Menu::with('store')->where('store_id' , $store_id)->get();
 
         foreach ($data as $key => $value) {
             $value->image = asset('images/' . $value->image);
