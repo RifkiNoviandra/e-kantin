@@ -11,4 +11,5 @@ class DetailTransaction extends Model
 
     protected $guarded = [];
     public $timestamps = false;
+
 }

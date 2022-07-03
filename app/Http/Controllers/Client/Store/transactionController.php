@@ -60,7 +60,7 @@ class transactionController extends Controller
 
     function listTransaction(Request $request , $id){
 
-        $data = DetailTransaction::where('store_id' , $id)->where('status' , 0)->get();
+        $data = DetailTransaction::where('store_id' , $id)->where('status' , "0")->get();
 
         return response([
             'data' => $data

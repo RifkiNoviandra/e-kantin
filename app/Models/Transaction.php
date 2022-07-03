@@ -14,4 +14,8 @@ class Transaction extends Model
     function detail(){
         return $this->hasMany(DetailTransaction::class , 'id');
     }
+
+    function detailUnique(){
+        return $this->hasMany(DetailTransaction::class , 'unique_id');
+    }
 }

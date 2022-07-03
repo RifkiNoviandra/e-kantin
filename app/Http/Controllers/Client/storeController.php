@@ -49,9 +49,9 @@ class storeController extends Controller
 
         $data = Menu::where('name' , 'LIKE' , '%'.$params.'%')->get();
 
-        foreach ($data as $key => $value) {
-            $value->image = asset('images/' . $value->image);
-        }
+        // foreach ($data as $key => $value) {
+        //     $value->image = asset('images/' . $value->image);
+        // }
 
         return response([
             'data' => $data
