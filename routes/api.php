@@ -48,6 +48,7 @@ Route::prefix('admin')->group(function(){
 
     Route::prefix('/user')->group(function () {
         Route::get('/data', [dataController::class, 'getUser']);
+        Route::get('/data/{id}', [dataController::class, 'getUserById']);
         Route::post('/data', [dataController::class, 'create']);
         Route::post('/data/{id}', [dataController::class, 'update']);
         Route::delete('/data/{id}', [dataController::class, 'delete']);

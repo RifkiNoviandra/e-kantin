@@ -22,7 +22,7 @@ class dataController extends Controller
     }
 
     function getUserById(Request $request , $id){
-        $data = User::where('id' , $id)->get();
+        $data = User::where('id' , $id)->first();
 
         $data->profile_image = asset('images/' . $data->profile_image);
 
