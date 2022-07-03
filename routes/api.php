@@ -52,6 +52,8 @@ Route::prefix('admin')->group(function(){
         Route::post('/data', [dataController::class, 'create']);
         Route::post('/data/{id}', [dataController::class, 'update']);
         Route::delete('/data/{id}', [dataController::class, 'delete']);
+
+        Route::post('/topup', [dataController::class, 'updateBalance']);
     });
     
     Route::prefix('/store')->group(function () {
