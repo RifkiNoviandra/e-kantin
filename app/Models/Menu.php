@@ -11,4 +11,8 @@ class Menu extends Model
 
     protected $guarded = [];
     public $timestamps = false;
+
+    function store(){
+        return $this->belongsTo(Store::class , 'store_id' , 'id');
+    }
 }

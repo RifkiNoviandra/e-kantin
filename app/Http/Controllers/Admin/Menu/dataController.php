@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class dataController extends Controller
 {
     public function getMenu(){
-        $data = Menu::all();
+        $data = Menu::with('store')->get();
 
         foreach ($data as $key => $value) {
             $value->image = asset('images/' . $value->image);
