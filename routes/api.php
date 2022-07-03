@@ -40,6 +40,7 @@ Route::prefix('client')->group(function () {
 
         Route::get('store' , [storeController::class , 'getStore']);
         Route::get('menu/{id}' , [storeController::class , 'getMenu']);
+        Route::post('menu/search/' , [storeController::class , 'getMenuBySearch']);
     });
 });
 
@@ -59,6 +60,7 @@ Route::prefix('admin')->group(function(){
         Route::delete('/data/{id}', [StoreDataController::class, 'delete']);
 
         Route::get('/menu/{store_id}' , [MenuDataController::class , 'getMenuByStore']);
+        
     });
 
     Route::prefix('/menu')->group(function () {
