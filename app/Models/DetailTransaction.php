@@ -12,4 +12,8 @@ class DetailTransaction extends Model
     protected $guarded = [];
     public $timestamps = false;
 
+    function menu(){
+        return $this->belongsTo(Menu::class , 'menu_id' , 'id');
+    }
+
 }

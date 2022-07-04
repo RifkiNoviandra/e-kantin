@@ -12,10 +12,7 @@ class Transaction extends Model
     protected $guarded = [];
 
     function detail(){
-        return $this->hasMany(DetailTransaction::class , 'id');
-    }
+        return $this->hasMany(DetailTransaction::class , 'transaction_id' , 'id');
 
-    function detailUnique(){
-        return $this->hasMany(DetailTransaction::class , 'unique_id');
     }
 }

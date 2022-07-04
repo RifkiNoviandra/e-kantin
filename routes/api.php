@@ -37,6 +37,7 @@ Route::prefix('client')->group(function () {
         Route::post('logout/{id}', [authController::class, 'logout']);
         Route::post('transaction', [transactionController::class, 'insert']);
         Route::get('transaction/{id}', [transactionController::class, 'getTransactionListByUser']);
+        Route::get('transaction/detail/{id}', [transactionController::class, 'getTransactionListById']);
 
         Route::get('store' , [storeController::class , 'getStore']);
         Route::get('menu/{id}' , [storeController::class , 'getMenu']);

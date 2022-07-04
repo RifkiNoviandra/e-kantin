@@ -11,7 +11,15 @@ use Illuminate\Http\Request;
 class transactionController extends Controller
 {
     function getTransactionListByUser(Request $request , $id){
-        $data = Transaction::with('detailUnique')->where('user_id' , $id)->OrderBy('created_at')->get();
+        $data = Transaction::where('user_id' , $id)->OrderBy('created_at')->get();
+
+        return response([
+            'data' => $data
+        ]);
+    }
+
+    function getTransactionListById(Request $request , $id){
+        $data = DetailTransaction::with('menu.store')->where('transaction_id' , $id)->OrderBy('id')->get();
 
         return response([
             'data' => $data
@@ -86,6 +94,9 @@ class transactionController extends Controller
                     $detail_insert['price'] = $value_object['price'];
 
                     DetailTransaction::create($detail_insert);
+
+                    $user_data->balance = $user_data->balance - $input_data['total_price'];
+                    $user_data->save();
                 }
             }
         }
