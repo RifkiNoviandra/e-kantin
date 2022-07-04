@@ -10,23 +10,26 @@ use Illuminate\Http\Request;
 
 class transactionController extends Controller
 {
-    function getTransactionListByUser(Request $request , $id){
-        $data = Transaction::where('user_id' , $id)->OrderBy('created_at')->get();
+    function getTransactionListByUser(Request $request, $id)
+    {
+        $data = Transaction::where('user_id', $id)->OrderBy('created_at')->get();
 
         return response([
             'data' => $data
         ]);
     }
 
-    function getTransactionListById(Request $request , $id){
-        $data = DetailTransaction::with('menu.store')->where('transaction_id' , $id)->OrderBy('id')->get();
+    function getTransactionListById(Request $request, $id)
+    {
+        $data = DetailTransaction::with('menu.store')->where('transaction_id', $id)->OrderBy('id')->get();
 
         return response([
             'data' => $data
         ]);
     }
 
-    function insert(Request $request){
+    function insert(Request $request)
+    {
 
         $request->validate([
             'order' => 'required',
@@ -35,30 +38,29 @@ class transactionController extends Controller
             'pickup_date' => 'required | date_format:Y-m-d',
         ]);
 
-        $input = $request->only('order' , 'user_id' , 'total_price' , 'pickup_date');
+        $input = $request->only('order', 'user_id', 'total_price', 'pickup_date');
 
         $inserted_data = [];
 
         foreach ($input['order'] as $key => $value) {
             $id = $value['store_id'];
-            if(array_key_exists("$id" , $inserted_data)){
-                array_push($inserted_data["$id"] , $value);
-            }else{
+            if (array_key_exists("$id", $inserted_data)) {
+                array_push($inserted_data["$id"], $value);
+            } else {
                 $inserted_data["$id"] = [];
-                array_push($inserted_data["$id"] , $value);
+                array_push($inserted_data["$id"], $value);
             }
-
         }
 
         $input_data = [];
 
-        $user_data = User::where('id' , $input['user_id'])->first();
+        $user_data = User::where('id', $input['user_id'])->first();
 
-        $transaction_data = Transaction::where('user_id' , $input['user_id'])->get();
+        $transaction_data = Transaction::where('user_id', $input['user_id'])->get();
 
         $transaction_data_count = count($transaction_data);
 
-        $input_data['transaction_unique_id'] = "20533816".$user_data->username.$transaction_data_count+1;
+        $input_data['transaction_unique_id'] = "20533816" . $user_data->username . $transaction_data_count + 1;
 
         $input_data['user_id'] = $input['user_id'];
 
@@ -74,7 +76,7 @@ class transactionController extends Controller
 
         $data = Transaction::create($input_data);
 
-        if($data){
+        if ($data) {
 
             $detail_insert = [];
 
@@ -94,17 +96,15 @@ class transactionController extends Controller
                     $detail_insert['price'] = $value_object['price'];
 
                     DetailTransaction::create($detail_insert);
-
-                    $user_data->balance = $user_data->balance - $input_data['total_price'];
-                    $user_data->save();
                 }
             }
-        }
 
-        else{
+            $user_data->balance = $user_data->balance - $input_data['total_price'];
+            $user_data->save();
+        } else {
             return response([
                 'message' => 'process failed'
-            ] , 400);
+            ], 400);
         }
 
         return response([
