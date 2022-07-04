@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class transactionController extends Controller
 {
     function getTransactionListByUser(Request $request , $id){
-        $data = Transaction::with('detail')->where('user_id' , $id)->OrderBy('created_at')->get();
+        $data = Transaction::with('detailUnique')->where('user_id' , $id)->OrderBy('created_at')->get();
 
         return response([
             'data' => $data
