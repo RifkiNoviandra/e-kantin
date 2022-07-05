@@ -62,7 +62,7 @@ class transactionController extends Controller
     {       
 
         $data = Transaction::with(['detail' => function ($query) use ($id) {
-            return $query->where('store_id', $id);
+            return $query->where('store_id', $id)->where('status' , '0');
         }, 'user'])->where('status', "0")->get();
 
         if (isset($request->parameter)) {
