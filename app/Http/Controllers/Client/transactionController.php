@@ -21,9 +21,9 @@ class transactionController extends Controller
 
     function getTransactionListById(Request $request, $id)
     {
-        $data = DetailTransaction::with('menu.store')->where('transaction_id', $id)->OrderBy('id')->get();
+        $data = DetailTransaction::with('menu.store')->where('transaction_id', $id)->get();
 
-        return response([
+        return response([       
             'data' => $data
         ]);
     }
