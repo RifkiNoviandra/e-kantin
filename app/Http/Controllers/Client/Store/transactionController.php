@@ -68,7 +68,7 @@ class transactionController extends Controller
         if (isset($request->parameter)) {
             $search = $request->parameter;
             $data = Transaction::with(['detail' => function ($query) use ($id) {
-                return $query->where('store_id', $id);
+                return $query->where('store_id', $id)->where('status' , "0");
             }, 'user' => function ($query) use ($search) {
                 return $query->where('name', 'LIKE' , '%'.$search.'%');
             }])->where('status', "0")->get();
