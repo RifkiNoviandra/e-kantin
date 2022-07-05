@@ -82,4 +82,15 @@ class transactionController extends Controller
             ]);
         }
     }
+
+    function getTransactionByIdAndStore(Request $request , $id , $store_id){
+        $data = Transaction::with([ 'user' ,'detail.menu' => function($query) use($store_id) {
+            return $query->where('store_id' , $store_id);
+        }])->where('id', $id)->first();
+
+        return response([       
+            'data' => $data
+        ]);
+    }
 }
+
