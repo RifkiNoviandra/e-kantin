@@ -33,7 +33,7 @@ return [
                         ],
                         [
                             'title' => 'Top Up',
-                            'page' => '/manage/user/topUp'
+                            'page' => '/manage/user/topUpBalance'
                         ],
                     ]
                 ],
