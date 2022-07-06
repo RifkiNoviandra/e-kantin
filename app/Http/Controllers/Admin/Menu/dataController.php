@@ -88,6 +88,8 @@ class dataController extends Controller
             ]);
         }
 
+        $input['name'] = strtoupper($input['name']);
+
         $insert = Menu::create($input);
 
         if(!$insert){
@@ -138,6 +140,8 @@ class dataController extends Controller
         } else {
             $input['image'] = $data->image;
         }
+
+        $input['name'] = strtoupper($input['name']);
 
         $update = $data->update($input);
 

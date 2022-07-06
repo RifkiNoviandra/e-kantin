@@ -72,6 +72,8 @@ class dataController extends Controller
             ], 400);
         }
 
+        $input['name'] = strtoupper($input['name']);
+
         $insert = User::create($input);
 
         if(!$insert){
@@ -101,6 +103,8 @@ class dataController extends Controller
                 'message' => 'Empty Field'
             ], 400);
         }
+
+        $input['name'] = strtoupper($input['name']);
 
         $data = User::where('id' , $id)->first();
 
