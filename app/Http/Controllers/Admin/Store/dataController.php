@@ -65,6 +65,8 @@ class dataController extends Controller
             ], 400);
         }
 
+        $input['name'] = strtoupper($input['name']);
+
         $insert = Store::create($input);
 
         if (!$insert) {
@@ -94,6 +96,8 @@ class dataController extends Controller
         $input['password'] = Hash::make($request->password);
 
         $input['unique_id'] = md5($input['username']);
+
+        $input['name'] = strtoupper($input['name']);
 
         if (!$validate) {
             return response([
