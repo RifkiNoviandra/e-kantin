@@ -9,17 +9,18 @@ use Illuminate\Http\Request;
 
 class storeController extends Controller
 {
-    function getStore(Request $request){
-        $data = Store::where('status' , '1')->get();
+    function getStore(Request $request)
+    {
+        $data = Store::where('status', '1')->get();
 
         foreach ($data as $key => $value) {
             $value->image = asset('images/' . $value->image);
         }
 
-        if(!$data){
+        if (!$data) {
             return response([
                 'message' => 'No Data'
-            ] , 400);
+            ], 400);
         }
 
         return response([
@@ -27,8 +28,9 @@ class storeController extends Controller
         ]);
     }
 
-    function getMenu(Request $request , $id){
-        $data = Menu::where('store_id' , $id)->get();
+    function getMenu(Request $request, $id)
+    {
+        $data = Menu::where('store_id', $id)->get();
 
         foreach ($data as $key => $value) {
             $value->image = asset('images/' . $value->image);
@@ -39,15 +41,18 @@ class storeController extends Controller
         ]);
     }
 
-    function getMenuBySearch(Request $request){
+    function getMenuBySearch(Request $request)
+    {
 
-        $request->validate([
-            'params' => 'required'
-        ]);
+        $data = Menu::with('store')->get();
 
-        $params = $request->params;
+        if ($request->params) {
+            $params = $request->params;
 
-        $data = Menu::with('store')->where('name' , 'LIKE' , '%'.$params.'%')->get();
+            $params = strtoupper($params);
+
+            $data = Menu::with('store')->where('name', 'LIKE', '%' . $params . '%')->get();
+        }
 
         foreach ($data as $key => $value) {
             $value->image = asset('images/' . $value->image);
@@ -57,6 +62,4 @@ class storeController extends Controller
             'data' => $data
         ]);
     }
-
-    
 }
