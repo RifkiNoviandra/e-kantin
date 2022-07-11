@@ -38,12 +38,21 @@ class webController extends Controller
                     </div>
                     <div class="form-group">
                         <label for="">Owner</label>
-                        <input type="text" name="owner" class="form-control form-control-solid" value="'.$data->owner.'">
+                        <input type="text" name="owner" class="form-control form-control-solid" value="' . $data->owner . '">
                     </div>
                     <div class="form-group">
                         <label for="">Number</label>
                         <input type="text" name="number" class="form-control form-control-solid" value="' . $data->number . '">
                     </div>
+                    <div class="form-group">
+                        <label for="">Image</label>
+                        <input type="file" name="image" class="form-control form-control-solid">
+                        <span class="form-text text-muted">Opsional</span>
+                    </div>
+                    <div class="form-group">
+                            <label for="">Change Status?</label>
+                            <input data-switch="true" name="status" type="checkbox" data-on-text="True" data-handle-width="50" data-off-text="False" data-on-color="success" value="1" />
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
@@ -65,11 +74,12 @@ class webController extends Controller
             'owner' => 'required',
             'name' => 'required',
             'number' => 'required',
+            'image' => 'required'
         ]);
 
         $input = $request->only('username', 'name', 'owner', 'number');
 
-        if($request->balance){
+        if ($request->balance) {
             $input['balance'] = $request->balance;
         }
 
@@ -77,9 +87,23 @@ class webController extends Controller
 
         $input['password'] = Hash::make($request->password);
 
-        if(isset($request->status)){
+        $files = $request->file('image');
+        $ext = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'jfif'];
+        $file_ext = $files->getClientOriginalExtension();
+
+        if (in_array($file_ext, $ext)) {
+            $name = date("Y-m-d") . $files->getClientOriginalName();
+            $input['image'] = $name;
+            $request->image->move(public_path() . "/images", $name);
+        } else {
+            return response([
+                'message' => 'file extension doesnt meet the requirement'
+            ]);
+        }
+
+        if (isset($request->status)) {
             $input['status'] = '1';
-        }else{
+        } else {
             $input['status'] = '2';
         }
 
@@ -97,7 +121,7 @@ class webController extends Controller
             ], 400);
         }
 
-        return redirect(route('store'))->with('message' , 'success');
+        return redirect(route('store'))->with('message', 'success');
     }
 
     function update(Request $request, $id)
@@ -121,6 +145,33 @@ class webController extends Controller
 
         $data = Store::where('id', $id)->first();
 
+        if (isset($request->status)) {
+            if ($data->status = '1') {
+                $input['status'] = '2';
+            }if($data->status = '2'){
+                $input['status'] = '1';
+            }
+        } else {
+            $input['status'] = $data->status;
+        }
+
+        if ($files = $request->file('image')) {
+            $ext = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'jfif'];
+            $file_ext = $files->getClientOriginalExtension();
+
+            if (in_array($file_ext, $ext)) {
+                $name = date("Y-m-d") . $files->getClientOriginalName();
+                $input['image'] = $name;
+                $files->move(public_path() . "/images", $name);
+            } else {
+                return response([
+                    'message' => 'file extension doesnt meet the requirement'
+                ]);
+            }
+        } else {
+            $input['image'] = $data->image;
+        }
+
         if (!$data) {
             return response([
                 'message' => 'no data'
@@ -135,7 +186,7 @@ class webController extends Controller
             ], 400);
         }
 
-        return redirect(route('store'))->with('message' , 'success');
+        return redirect(route('store'))->with('message', 'success');
     }
 
     function delete(Request $request, $id)
@@ -156,7 +207,7 @@ class webController extends Controller
             ], 400);
         }
 
-        return redirect(route('store'))->with('message' , 'success');
+        return redirect(route('store'))->with('message', 'success');
     }
 
     function updateBalance(Request $request)

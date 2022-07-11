@@ -151,9 +151,11 @@
                     <th>Record ID</th>
                     <th>Username</th>
                     <th>Name</th>
+                    <th>Class</th>
                     <th>Number</th>
                     <th>Balance</th>
                     <th>Identity</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -163,8 +165,14 @@
                     <td>{{ $key+1 }}</td>
                     <td>{{ $value->username }}</td>
                     <td>{{ $value->name }}</td>
+                    <td>{{ $value->class }}</td>
                     <td>{{ $value->number }}</td>
                     <td>{{ $value->balance }}</td>
+                    @if($value->status == '1')
+                    <td><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Active</span></td>
+                    @elseif($value->status == '0')
+                    <td><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Unactive</span></td>
+                    @endif
                     <td>{{ $value->identity_as }}</td>
                     <td nowrap>
                         <a href="javascript:;" class="btn btn-sm btn-clean btn-icon mr-2 dtlInfo" data-url="{{ route('manage.user' , $value->id) }}" data-toggle="modal" data-target="#exampleModalLong" title="Edit details"> <span class="svg-icon svg-icon-md"> <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -209,9 +217,31 @@
 {{-- Scripts Section --}}
 @section('scripts')
 {{-- vendors --}}
+
+
 <script src="{{ asset('plugins/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
 
 <script>
+    var KTBootstrapSwitch = function() {
+
+        // Private functions
+        var demos = function() {
+            // minimum setup
+            $('[data-switch=true]').bootstrapSwitch();
+        };
+
+        return {
+            // public functions
+            init: function() {
+                demos();
+            },
+        };
+    }();
+
+    jQuery(document).ready(function() {
+        KTBootstrapSwitch.init();
+    })
+
     $(function() {
 
         $('.dtlInfo').click(function(e) {
@@ -225,6 +255,9 @@
                     $('#myModal').modal('show');
                     $('#form').html(res.data);
                     $('#form').attr('action', res.action);
+                    jQuery(document).ready(function() {
+                        KTBootstrapSwitch.init();
+                    })
                 },
                 error: function(request, status, error) {
                     console.log(error);
@@ -252,7 +285,7 @@
                 </button>
             </div>
             <div class="modal-body" id="modal-body">
-                <form class="form" id="form" method="POST" action="">
+                <form class="form" id="form" method="POST" action="" enctype="multipart/form-data">
 
                 </form>
             </div>
@@ -270,7 +303,7 @@
                 </button>
             </div>
             <div class="modal-body" id="modal-body">
-                <form class="form" id="form" method="POST" action="{{ route('manage.user.create') }}">
+                <form class="form" id="form" method="POST" action="{{ route('manage.user.create') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
@@ -290,9 +323,21 @@
                             <input type="text" name="number" class="form-control form-control-solid" required>
                         </div>
                         <div class="form-group">
+                            <label for="">Class</label>
+                            <input type="text" name="class" class="form-control form-control-solid" required>
+                        </div>
+                        <div class="form-group">
                             <label for="">Balance</label>
                             <input type="text" name="balance" class="form-control form-control-solid">
                             <span class="form-text text-muted">Opsional</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Image</label>
+                            <input type="file" name="image" class="form-control form-control-solid">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Status</label>
+                            <input data-switch="true" name="status" type="checkbox" data-on-text="True" data-handle-width="50" data-off-text="False" data-on-color="success" value="1" />
                         </div>
                         <div class="form-group row">
                             <label class="col-3 col-form-label">Identity As</label>

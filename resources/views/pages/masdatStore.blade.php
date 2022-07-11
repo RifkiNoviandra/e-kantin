@@ -169,7 +169,7 @@
                     <td>{{ $value->owner }}</td>
                     <td>{{ $value->number }}</td>
                     <td>{{ $value->balance }}</td>
-                    @if($value->status = '1')
+                    @if($value->status == '1')
                     <td><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Available</span></td>
                     @else
                     <td><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Unavailable</span></td>
@@ -236,7 +236,7 @@
     }();
 
     jQuery(document).ready(function() {
-                KTBootstrapSwitch.init();
+        KTBootstrapSwitch.init();
     })
 </script>
 
@@ -256,6 +256,9 @@
                     $('#myModal').modal('show');
                     $('#form').html(res.data);
                     $('#form').attr('action', res.action);
+                    jQuery(document).ready(function() {
+                        KTBootstrapSwitch.init();
+                    })
                 },
                 error: function(request, status, error) {
                     console.log(error);
@@ -283,7 +286,7 @@
                 </button>
             </div>
             <div class="modal-body" id="modal-body">
-                <form class="form" id="form" method="POST" action="">
+                <form class="form" id="form" method="POST" action="" enctype="multipart/form-data">
 
                 </form>
             </div>
@@ -301,7 +304,7 @@
                 </button>
             </div>
             <div class="modal-body" id="modal-body">
-                <form class="form" id="form" method="POST" action="{{ route('manage.store.create') }}">
+                <form class="form" id="form" method="POST" action="{{ route('manage.store.create') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
@@ -335,7 +338,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Status</label>
-                            <input data-switch="true" type="checkbox" checked="checked" data-on-text="True" data-handle-width="50" data-off-text="False" data-on-color="success" value="1" />
+                            <input data-switch="true" name="status" type="checkbox" data-on-text="True" data-handle-width="50" data-off-text="False" data-on-color="success" value="1" />
                         </div>
                     </div>
                     <div class="modal-footer">

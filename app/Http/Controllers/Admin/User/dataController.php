@@ -44,6 +44,12 @@ class dataController extends Controller
 
         $input = $request->only('username' , 'name' , 'number' , 'identity_as' , 'status');
 
+        if(isset($request->status)){
+            $input['status'] = '1';
+        }else{
+            $input['status'] = '0';
+        }
+
         if($request->balance){
             $input['balance'] = $request->balance;
         }
@@ -96,6 +102,12 @@ class dataController extends Controller
 
         $input = $request->only('username' , 'name' , 'number');
 
+        if(isset($request->status)){
+            $input['status'] = '1';
+        }else{
+            $input['status'] = '0';
+        }
+
         $input['password'] = Hash::make($request->password);
 
         if (!$validate) {
@@ -122,7 +134,7 @@ class dataController extends Controller
                 ]);
             }
         } else {
-            $input['profile_image'] = $data->image;
+            $input['profile_image'] = $data->profile_image;
         }
 
         if(!$data){
