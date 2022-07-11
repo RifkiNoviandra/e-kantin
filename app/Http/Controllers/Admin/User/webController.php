@@ -139,7 +139,7 @@ class webController extends Controller
             'class' => 'required',
         ]);
 
-        $input = $request->only('username', 'name', 'number', 'class');
+        $input = $request->only('username', 'name', 'number', 'class' , 'balance');
 
         $input['password'] = Hash::make($request->password);
 

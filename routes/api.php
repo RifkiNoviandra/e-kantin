@@ -43,6 +43,7 @@ Route::prefix('client')->group(function () {
         Route::get('store' , [storeController::class , 'getStore']);
         Route::get('menu/{id}' , [storeController::class , 'getMenu']);
         Route::post('menu/search/' , [storeController::class , 'getMenuBySearch']);
+
     });
 });
 
