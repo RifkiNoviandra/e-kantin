@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\Store\Menu\dataController as MenuDataController;
+use App\Http\Controllers\Admin\Store\Menu\webController as MenuWebController;
 use App\Http\Controllers\Admin\Store\webController as StoreWebController;
 use App\Http\Controllers\Admin\User\dataController;
 use App\Http\Controllers\Admin\User\topUpController;
@@ -46,6 +48,12 @@ Route::prefix('manage')->group(function() {
     Route::post('/store' , [StoreWebController::class , 'create'])->name('manage.store.create');
     Route::put('/store/{id}' , [StoreWebController::class , 'update'])->name('manage.store.update');
     Route::get('/store/delete/{id}' , [StoreWebController::class , 'delete'])->name('manage.store.delete');
+
+    Route::get('/store/menu/{id}' , [StoreWebController::class , 'menuList'])->name('manage.store.menu');
+    Route::post('/store/menu/{id}' , [MenuWebController::class , 'create'])->name('manage.store.menu.create');
+    Route::get('/store/menu/data/{id}' , [MenuWebController::class , 'checkData'])->name('manage.store.menu.data');
+    Route::put('/store/menu/update/{id}' , [MenuWebController::class , 'update'])->name('manage.store..menu.update');
+    Route::get('/store/menu/delete/{id}/{store_id}' , [MenuWebController::class , 'delete'])->name('manage.store.menu.delete');
 });
 
 // Q]uick search dummy route to display html elements in search dropdown (header search)

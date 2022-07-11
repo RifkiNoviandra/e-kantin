@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Store;
 
+use App\Classes\Theme\Menu;
 use App\Http\Controllers\Controller;
+use App\Models\Menu as ModelsMenu;
 use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -208,6 +210,18 @@ class webController extends Controller
         }
 
         return redirect(route('store'))->with('message', 'success');
+    }
+
+    function menuList(Request $request , $id){
+
+        $store = Store::where('id' , $id)->first();
+
+        $data = ModelsMenu::where('store_id' , $id)->get();
+
+        return view('pages.masdatMenu' , [
+            'data' => $data,
+            'store' => $store
+        ]);
     }
 
     function updateBalance(Request $request)

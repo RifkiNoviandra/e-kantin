@@ -7,7 +7,7 @@
 <div class="card card-custom">
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
-            <h3 class="card-label">User Data
+            <h3 class="card-label">Menu Data {{ $store->name }}
                 <div class="text-muted pt-2 font-size-sm"></div>
             </h3>
         </div>
@@ -149,33 +149,23 @@
             <thead>
                 <tr>
                     <th>Record ID</th>
-                    <th>Username</th>
                     <th>Name</th>
-                    <th>Unique ID</th>
-                    <th>Owner</th>
-                    <th>Number</th>
-                    <th>Balance</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                    <th>Stock</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($store as $key => $value)
+                @foreach($data as $key => $value)
                 <tr>
                     <td>{{ $key+1 }}</td>
-                    <td>{{ $value->username }}</td>
                     <td>{{ $value->name }}</td>
-                    <td>{{ $value->unique_id }}</td>
-                    <td>{{ $value->owner }}</td>
-                    <td>{{ $value->number }}</td>
-                    <td>{{ $value->balance }}</td>
-                    @if($value->status == '1')
-                    <td><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Available</span></td>
-                    @else
-                    <td><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Unavailable</span></td>
-                    @endif
+                    <td>{{ $value->price }}</td>
+                    <td><img src="{{ asset('images/' . $value->image) }}" alt="" width="200" height="150"></td>
+                    <td>{{ $value->stock }}</td>
                     <td nowrap>
-                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon mr-2 dtlInfo" data-url="{{ route('manage.store' , $value->id) }}" data-toggle="modal" data-target="#exampleModalLong" title="Edit details"> <span class="svg-icon svg-icon-md"> <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon mr-2 dtlInfo" data-url="{{ route('manage.store.menu.data' , $value->id) }}" data-toggle="modal" data-target="#exampleModalLong" title="Edit details"> <span class="svg-icon svg-icon-md"> <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                         <rect x="0" y="0" width="24" height="24"></rect>
                                         <path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "></path>
@@ -184,20 +174,12 @@
                                 </svg>
                             </span>
                         </a>
-                        <a class="btn btn-sm btn-clean btn-icon" href="{{ route('manage.store.delete' , $value->id) }}" title="Delete"> <span class="svg-icon svg-icon-md"> <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <a class="btn btn-sm btn-clean btn-icon" href="{{ route('manage.store.menu.delete' , ['id' => $value->id , 'store_id' => $store->id]) }}" title="Delete"> <span class="svg-icon svg-icon-md"> <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                         <rect x="0" y="0" width="24" height="24"></rect>
                                         <path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero"></path>
                                         <path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3"></path>
                                     </g>
-                                </svg>
-                            </span>
-                        </a>
-                        <a class="btn btn-sm btn-clean btn-icon" href="{{ route('manage.store.menu' , $value->id) }}" title="Delete"> <span class="svg-icon svg-icon-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" id="IconChangeColor" height="200" width="200">
-                                    <!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. -->
-                                    <path d="M96 128C96.53 128 97.07 128 97.6 128C105 91.49 137.3 64 176 64C190.1 64 204.1 68.1 216.9 75.25C230.2 49.55 257.1 32 288 32C318.9 32 345.8 49.56 359.1 75.25C371 68.1 385 64 400 64C438.7 64 470.1 91.49 478.4 128C478.9 128 479.5 128 480 128C515.3 128 544 156.7 544 192C544 203.7 540.9 214.6 535.4 224H40.56C35.12 214.6 32 203.7 32 192C32 156.7 60.65 128 96 128H96zM16 283.4C16 268.3 28.28 256 43.43 256H532.6C547.7 256 560 268.3 560 283.4C560 356.3 512.6 418.2 446.9 439.8C447.6 442.4 448 445.2 448 448C448 465.7 433.7 480 416 480H160C142.3 480 128 465.7 128 448C128 445.2 128.4 442.4 129.1 439.8C63.4 418.2 16 356.3 16 283.4H16z" id="mainIconPathAttribute" opacity="0.3"></path>
-                                </svg>
                                 </svg>
                             </span>
                         </a>
@@ -260,7 +242,7 @@
                 url: url,
                 type: 'GET',
                 success: function(res) {
-                    $('#myModal .modal-title').html('Update Store ');
+                    $('#myModal .modal-title').html('Update Menu ');
                     $('#myModal').modal('show');
                     $('#form').html(res.data);
                     $('#form').attr('action', res.action);
@@ -306,13 +288,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Insert Data Store</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Insert Data Menu</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body" id="modal-body">
-                <form class="form" id="form" method="POST" action="{{ route('manage.store.create') }}" enctype="multipart/form-data">
+                <form class="form" id="form" method="POST" action="{{ route('manage.store.menu.create' , $store->id) }}" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
