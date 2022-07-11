@@ -23,6 +23,10 @@ class transactionController extends Controller
     {
             $data = Transaction::with([ 'user' ,'detail.menu.store'])->OrderBy('id' , 'DESC')->where('id', $id)->first();
 
+            foreach ($data->detail as $key => $value) {
+                $value->menu->image = asset('images/' . $value->menu->image);
+            }
+
             return response([       
                 'data' => $data
             ]);
