@@ -12,7 +12,7 @@ class transactionController extends Controller
 {
     function getTransactionListByUser(Request $request, $id)
     {
-        $data = Transaction::where('user_id', $id)->OrderBy('created_at')->get();
+        $data = Transaction::where('user_id', $id)->OrderBy('created_at' , 'DESC')->get();
 
         return response([
             'data' => $data
@@ -21,7 +21,7 @@ class transactionController extends Controller
 
     function getTransactionListById(Request $request, $id)
     {
-            $data = Transaction::with([ 'user' ,'detail.menu.store'])->where('id', $id)->first();
+            $data = Transaction::with([ 'user' ,'detail.menu.store'])->OrderBy('id' , 'DESC')->where('id', $id)->first();
 
             return response([       
                 'data' => $data
@@ -35,10 +35,9 @@ class transactionController extends Controller
             'order' => 'required',
             'user_id' => 'required',
             'total_price' => 'required',
-            'pickup_date' => 'required | date_format:Y-m-d',
         ]);
 
-        $input = $request->only('order', 'user_id', 'total_price', 'pickup_date');
+        $input = $request->only('order', 'user_id', 'total_price');
 
         $inserted_data = [];
 
@@ -73,6 +72,8 @@ class transactionController extends Controller
         foreach ($inserted_data as $key => $value) {
             $input_data['quantity_item'] = $input_data['quantity_item'] + count($value);
         }
+
+        $input_data['pickup_date'] = date('Y-m-d');
 
         $data = Transaction::create($input_data);
 
