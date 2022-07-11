@@ -51,6 +51,10 @@ class webController extends Controller
                         <input type="text" name="number" class="form-control form-control-solid" value="' . $data->number . '">
                     </div>
                     <div class="form-group">
+                        <label for="">Balance</label>
+                        <input type="number" name="balance" class="form-control form-control-solid" value="' . $data->number . '">
+                    </div>
+                    <div class="form-group">
                             <label for="">Image</label>
                             <input type="file" name="image" class="form-control form-control-solid">
                             <span class="form-text text-muted">Opsional</span>
@@ -139,7 +143,11 @@ class webController extends Controller
             'class' => 'required',
         ]);
 
-        $input = $request->only('username', 'name', 'number', 'class' , 'balance');
+        $input = $request->only('username', 'name', 'number', 'class');
+
+        if($request->balance){
+            $input['balance'] = $request->balance;
+        }
 
         $input['password'] = Hash::make($request->password);
 
