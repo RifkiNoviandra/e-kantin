@@ -330,6 +330,10 @@
                             <span class="form-text text-muted">Opsional</span>
                         </div>
                         <div class="form-group">
+                            <label for="">Image</label>
+                            <input type="file" name="image" class="form-control form-control-solid">
+                        </div>
+                        <div class="form-group">
                             <label for="">Status</label>
                             <input data-switch="true" type="checkbox" checked="checked" data-on-text="True" data-handle-width="50" data-off-text="False" data-on-color="success" value="1" />
                         </div>

@@ -65,7 +65,6 @@ Route::prefix('admin')->group(function(){
         Route::delete('/data/{id}', [StoreDataController::class, 'delete']);
 
         Route::get('/menu/{store_id}' , [MenuDataController::class , 'getMenuByStore']);
-        
     });
 
     Route::prefix('/menu')->group(function () {
