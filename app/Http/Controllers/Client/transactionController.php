@@ -65,15 +65,13 @@ class transactionController extends Controller
 
         $input_data['total_price'] = $input['total_price'];
 
-        $input_data['pickup_date'] = $input['pickup_date'];
+        $input_data['pickup_date'] = date('Y-m-d');
 
         $input_data['quantity_item'] = 0;
 
         foreach ($inserted_data as $key => $value) {
             $input_data['quantity_item'] = $input_data['quantity_item'] + count($value);
         }
-
-        $input_data['pickup_date'] = date('Y-m-d');
 
         $data = Transaction::create($input_data);
 
