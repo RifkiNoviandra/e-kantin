@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Menu\dataController as MenuDataController;
 use App\Http\Controllers\Admin\Store\dataController as StoreDataController;
 use App\Http\Controllers\Admin\User\dataController;
 use App\Http\Controllers\Auth\authController;
+use App\Http\Controllers\Client\RandomDataController;
 use App\Http\Controllers\Client\Store\transactionController as StoreTransactionController;
 use App\Http\Controllers\Client\storeController;
 use App\Http\Controllers\Client\transactionController;
@@ -44,6 +45,9 @@ Route::prefix('client')->group(function () {
         Route::get('store' , [storeController::class , 'getStore']);
         Route::get('menu/{id}' , [storeController::class , 'getMenu']);
         Route::post('menu/search/' , [storeController::class , 'getMenuBySearch']);
+
+        Route::get('menu/random' , [RandomDataController::class , 'getRandomMenu']);
+        Route::get('store/most' , [RandomDataController::class , 'getStoreMostTransaction']);
 
     });
 });
