@@ -16,8 +16,25 @@ class transactionController extends Controller
             return $query->where('store_id' , $id);
         }])->where('pickup_date' , 'LIKE' , '%'.date('Y-m-d').'%')->get();
 
+        $count_done = 0;
+
+        $count_progress = 0;
+
+        foreach ($data as $key => $value) {
+            if (count($value->detail) !== 0) {
+                foreach ($value->detail as $key => $val) {
+                    if ($val->status == '0') {
+                        $count_progress += 1;
+                    }if($val->status == '2'){
+                        $count_done += 1;
+                    }
+                }
+            }
+        }
+
         return response([
-            'data' => $data
+            'done' => $count_done,
+            'progress' => $count_progress
         ]);
     }
 
