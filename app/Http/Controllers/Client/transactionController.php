@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\DetailTransaction;
+use App\Models\Store;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -88,6 +89,17 @@ class transactionController extends Controller
             $detail_insert['transaction_unique_id'] = $input_data['transaction_unique_id'];
 
             foreach ($inserted_data as $key => $value) {
+
+                $key_data = array_keys($value);
+
+                $store_id_data = (int)$key_data;
+
+                $store_data = Store::where('id' , $store_id_data)->first();
+
+                $store_data->transaction_count += 1;
+
+                $store_data->save();
+
                 foreach ($value as $key => $value_object) {
 
                     $detail_insert['store_id'] = $value_object['store_id'];

@@ -14,7 +14,7 @@ class AddTransactionCountToStore extends Migration
     public function up()
     {
         Schema::table('stores', function (Blueprint $table) {
-            $table->integer('transaction_count');
+            $table->integer('transaction_count')->default(0);
         });
     }
 
