@@ -13,7 +13,7 @@ class transactionController extends Controller
 {
     function getTransactionListByUser(Request $request, $id)
     {
-        $data = Transaction::where('user_id', $id)->OrderBy('created_at' , 'DESC')->get();
+        $data = Transaction::where('user_id', $id)->OrderBy('created_at', 'DESC')->get();
 
         return response([
             'data' => $data
@@ -22,15 +22,15 @@ class transactionController extends Controller
 
     function getTransactionListById(Request $request, $id)
     {
-            $data = Transaction::with([ 'user' ,'detail.menu.store'])->OrderBy('id' , 'DESC')->where('id', $id)->first();
+        $data = Transaction::with(['user', 'detail.menu.store'])->OrderBy('id', 'DESC')->where('id', $id)->first();
 
-            foreach ($data->detail as $key => $value) {
-                $value->menu->image = asset('images/' . $value->menu->image);
-            }
+        foreach ($data->detail as $key => $value) {
+            $value->menu->image = asset('images/' . $value->menu->image);
+        }
 
-            return response([       
-                'data' => $data
-            ]);
+        return response([
+            'data' => $data
+        ]);
     }
 
     function insert(Request $request)
@@ -88,17 +88,22 @@ class transactionController extends Controller
 
             $detail_insert['transaction_unique_id'] = $input_data['transaction_unique_id'];
 
-            foreach ($inserted_data as $key => $value) {
+            $key_data = array_keys($inserted_data);
 
-                $key_data = array_keys($value);
+            foreach ($key_data as $key => $value) {
 
-                $store_id_data = (int)$key_data;
+                $store_id_data = (int)$value;
 
-                $store_data = Store::where('id' , $store_id_data)->first();
+                $store_data = Store::where('id', $store_id_data)->first();
 
                 $store_data->transaction_count += 1;
 
                 $store_data->save();
+            }
+
+            foreach ($inserted_data as $key => $value) {
+
+
 
                 foreach ($value as $key => $value_object) {
 
