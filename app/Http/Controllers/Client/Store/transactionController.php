@@ -33,8 +33,7 @@ class transactionController extends Controller
         }
 
         return response([
-            'done' => $count_done,
-            'progress' => $count_progress
+            $data
         ]);
     }
 
