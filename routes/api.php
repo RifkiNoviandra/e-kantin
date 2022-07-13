@@ -61,6 +61,7 @@ Route::prefix('admin')->group(function(){
     
     Route::prefix('/store')->group(function () {
         Route::get('/data', [StoreDataController::class, 'getStore']);
+        Route::get('/data/{id}', [StoreDataController::class, 'getStoreById']);
         Route::post('/data', [StoreDataController::class, 'create']);
         Route::post('/data/{id}', [StoreDataController::class, 'update']);
         Route::delete('/data/{id}', [StoreDataController::class, 'delete']);

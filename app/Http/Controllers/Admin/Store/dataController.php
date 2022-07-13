@@ -22,6 +22,18 @@ class dataController extends Controller
         ]);
     }
 
+    function getStoreById(Request $request , $id)
+    {
+        $data = Store::where('id' , $id)->first();
+
+        $data->image = asset('images/' . $data->image);
+
+        return response([
+            'data' => $data
+        ]);
+    }
+
+
     function create(Request $request)
     {
         $validate = $request->validate([
