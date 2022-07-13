@@ -25,7 +25,7 @@ class transactionController extends Controller
                 foreach ($value->detail as $key => $val) {
                     if ($val->status == '0') {
                         $count_progress += 1;
-                    }if($val->status == '2'){
+                    }if($val->status == '1'){
                         $count_done += 1;
                     }
                 }
