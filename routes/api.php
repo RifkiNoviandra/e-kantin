@@ -46,7 +46,7 @@ Route::prefix('client')->group(function () {
         Route::get('menu/{id}' , [storeController::class , 'getMenu']);
         Route::post('menu/search/' , [storeController::class , 'getMenuBySearch']);
 
-        Route::get('menu/random' , [RandomDataController::class , 'getRandomMenu']);
+        Route::get('menu/data/random' , [RandomDataController::class , 'getRandomMenu']);
         Route::get('store/most' , [RandomDataController::class , 'getStoreMostTransaction']);
 
     });
