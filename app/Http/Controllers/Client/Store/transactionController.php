@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client\Store;
 
 use App\Http\Controllers\Controller;
 use App\Models\DetailTransaction;
+use App\Models\Store;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
@@ -25,10 +26,26 @@ class transactionController extends Controller
 
             if ($transaction) {
 
+                $detail_data = DetailTransaction::where('transaction_unique_id', $d)->where('store_id', $l)->get();
+
+                $earning = 0;
+
+                foreach ($detail_data as $key => $value) {
+                    $earning = $earning + $value->price;
+                }
+
+                $store = Store::where('id', $l)->first();
+
+                $store->balance = $store->balance + $earning;
+
+                $store->save();
+
                 $detail = DetailTransaction::where('transaction_unique_id', $d)->where('store_id', $l)->update(['status' => '1']);
                 // $detail->update(['status' => 1]);
 
                 $confirmation = DetailTransaction::where('transaction_unique_id', $d)->where('status', 0)->get();
+
+
 
                 if (count($confirmation) === 0) {
 
@@ -59,18 +76,18 @@ class transactionController extends Controller
     }
 
     function listTransaction(Request $request, $id)
-    {       
+    {
 
         $data = Transaction::with(['detail' => function ($query) use ($id) {
-            return $query->where('store_id', $id)->where('status' , '0');
+            return $query->where('store_id', $id)->where('status', '0');
         }, 'user'])->where('status', "0")->get();
 
         if (isset($request->parameter)) {
             $search = strtoupper($request->parameter);
             $data = Transaction::with(['detail' => function ($query) use ($id) {
-                return $query->where('store_id', $id)->where('status' , '0');
+                return $query->where('store_id', $id)->where('status', '0');
             }, 'user' => function ($query) use ($search) {
-                return $query->where('name', 'LIKE' , '%'.$search.'%');
+                return $query->where('name', 'LIKE', '%' . $search . '%');
             }])->where('status', '0')->get();
 
             return response([
@@ -83,14 +100,14 @@ class transactionController extends Controller
         }
     }
 
-    function getTransactionByIdAndStore(Request $request , $id , $store_id){
-        $data = Transaction::with([ 'user' ,'detail' => function($query) use($store_id) {
-            return $query->with('menu')->where('store_id' , $store_id)->where('status' , '0');
+    function getTransactionByIdAndStore(Request $request, $id, $store_id)
+    {
+        $data = Transaction::with(['user', 'detail' => function ($query) use ($store_id) {
+            return $query->with('menu')->where('store_id', $store_id)->where('status', '0');
         }])->where('id', $id)->first();
 
-        return response([       
+        return response([
             'data' => $data
         ]);
     }
 }
-
