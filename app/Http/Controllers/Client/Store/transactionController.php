@@ -10,6 +10,17 @@ use Illuminate\Http\Request;
 
 class transactionController extends Controller
 {
+
+    public function countTransactionDay(Request $request , $id){
+        $data = Transaction::with(['detail' => function($query) use($id) {
+            return $query->where('store_id' , $id);
+        }])->where('pickup_date' , 'LIKE' , '%'.date('Y-m-d').'%')->get();
+
+        return response([
+            'data' => $data
+        ]);
+    }
+
     function acceptTransactionComplete(Request $request)
     {
 
