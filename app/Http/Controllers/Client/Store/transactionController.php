@@ -128,6 +128,31 @@ class transactionController extends Controller
         }
     }
 
+    function listTransactionDone(Request $request, $id)
+    {
+
+        $data = Transaction::with(['detail' => function ($query) use ($id) {
+            return $query->where('store_id', $id)->where('status', '1');
+        }, 'user'])->where('status', "1")->get();
+
+        if (isset($request->parameter)) {
+            $search = strtoupper($request->parameter);
+            $data = Transaction::with(['detail' => function ($query) use ($id) {
+                return $query->where('store_id', $id)->where('status', '1');
+            }, 'user' => function ($query) use ($search) {
+                return $query->where('name', 'LIKE', '%' . $search . '%');
+            }])->where('status', '1')->get();
+
+            return response([
+                'data' => $data
+            ]);
+        } else {
+            return response([
+                'data' => $data
+            ]);
+        }
+    }
+
     function getTransactionByIdAndStore(Request $request, $id, $store_id)
     {
         $data = Transaction::with(['user', 'detail' => function ($query) use ($store_id) {
