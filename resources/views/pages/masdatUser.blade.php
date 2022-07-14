@@ -95,7 +95,7 @@
         </div>
     </div>
 
-    <div class="card-body">
+    <div class="card-body" style="overflow-x: auto;">
 
         <!--begin::Search Form-->
         <!-- <div class="mt-2 mb-5 mt-lg-5 mb-lg-10">

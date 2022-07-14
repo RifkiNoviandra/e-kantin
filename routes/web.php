@@ -33,6 +33,9 @@ Route::get('/icons/socicons', [PageController::class ,'socicons']);
 Route::get('/icons/svg', [PageController::class ,'svg']);
 
 Route::prefix('manage')->group(function() {
+
+    Route::prefix('/' , [PageController::class , 'dashboard'])->name('dashboard');
+
     Route::get('/user' , [PageController::class , 'user'])->name('manage');
     Route::get('/user/topUpBalance' , [PageController::class , 'topUp'])->name('manage.topUp');
     Route::post('/user/check/topUpBalance' , [topUpController::class , 'checkData'])->name('manage.topUp.check');

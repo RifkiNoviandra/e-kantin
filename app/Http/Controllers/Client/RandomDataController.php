@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class RandomDataController extends Controller
 {
     public function getRandomMenu(){
-        $data = ModelsMenu::inRandomOrder()->limit(3)->get();
+        $data = ModelsMenu::with('store')->inRandomOrder()->limit(3)->get();
 
         foreach ($data as $key => $value) {
             $value->image = asset('images/' . $value->image);

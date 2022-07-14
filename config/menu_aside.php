@@ -17,31 +17,47 @@ return [
             'section' => 'Custom',
         ],
         [
-            'title' => 'Applications',
-            'icon' => 'media/svg/icons/Layout/Layout-4-blocks.svg',
+            'title' => 'User',
+            'icon' => 'media/svg/icons/General/User.svg',
+            'page' => '/manage/user',
             'bullet' => 'line',
             'root' => true,
-            'submenu' => [
-                [
-                    'title' => 'Users',
-                    'bullet' => 'dot',
-                    // 'page' => '/manage/user',
-                    'submenu' => [
-                        [
-                            'title' => 'Master Data',
-                            'page' => '/manage/user',
-                        ],
-                        [
-                            'title' => 'Top Up',
-                            'page' => '/manage/user/topUpBalance'
-                        ],
-                    ]
-                ],
-                [
-                    'title' => 'Store',
-                    'bullet' => 'dot',
-                    'page' => '/manage/store',
-                ],
+        ],
+        [
+            'title' => 'Store',
+            'icon' => 'media/svg/icons/Shopping/Bag1.svg',
+            'page' => '/manage/store',
+            'bullet' => 'line',
+            'root' => true,
+        ],
+        [
+            'title' => 'Top Up',
+            'icon' => 'media/svg/icons/Shopping/Money.svg',
+            'page' => '/manage/user/topUpBalance',
+            'bullet' => 'line',
+            'root' => true,
+        ],
+            // 'submenu' => [
+            //     [
+            //         'title' => 'Users',
+            //         'bullet' => 'dot',
+            //         // 'page' => '/manage/user',
+            //         'submenu' => [
+            //             [
+            //                 'title' => 'Master Data',
+            //                 'page' => '/manage/user',
+            //             ],
+            //             [
+            //                 'title' => 'Top Up',
+            //                 'page' => '/manage/user/topUpBalance'
+            //             ],
+            //         ]
+            //     ],
+            //     [
+            //         'title' => 'Store',
+            //         'bullet' => 'dot',
+            //         'page' => '/manage/store',
+            //     ],
         //         [
         //             'title' => 'Profile',
         //             'bullet' => 'dot',
@@ -1331,8 +1347,8 @@ return [
         //             'title' => 'Idle Timer',
         //             'page' => 'features/miscellaneous/idle-timer'
         //         ]
-            ]
-        ]
+            // ]
+        
     ]
 
 ];

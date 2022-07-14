@@ -95,7 +95,7 @@
         </div>
     </div>
 
-    <div class="card-body">
+    <div class="card-body" style="overflow-x: auto ;">
 
         <!--begin::Search Form-->
         <!-- <div class="mt-2 mb-5 mt-lg-5 mb-lg-10">
@@ -298,37 +298,25 @@
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="">Username</label>
-                            <input type="text" name="username" class="form-control form-control-solid" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Password</label>
-                            <input type="password" name="password" class="form-control form-control-solid" required>
-                        </div>
-                        <div class="form-group">
                             <label for="">Name</label>
                             <input type="text" name="name" class="form-control form-control-solid" required>
                         </div>
                         <div class="form-group">
-                            <label for="">Owner</label>
-                            <input type="text" name="owner" class="form-control form-control-solid" required>
+                            <label for="">Price</label>
+                            <input type="number" name="price" class="form-control form-control-solid" required>
                         </div>
                         <div class="form-group">
-                            <label for="">Number</label>
-                            <input type="text" name="number" class="form-control form-control-solid" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Balance</label>
-                            <input type="text" name="balance" class="form-control form-control-solid">
-                            <span class="form-text text-muted">Opsional</span>
+                            <label for="">Description</label>
+                            <textarea name="description" class="form-control form-control-solid" required></textarea>
                         </div>
                         <div class="form-group">
                             <label for="">Image</label>
                             <input type="file" name="image" class="form-control form-control-solid">
                         </div>
                         <div class="form-group">
-                            <label for="">Status</label>
-                            <input data-switch="true" name="status" type="checkbox" data-on-text="True" data-handle-width="50" data-off-text="False" data-on-color="success" value="1" />
+                            <label for="">Stock</label>
+                            <input type="number" name="stock" class="form-control form-control-solid">
+                            <span class="form-text text-muted">Opsional</span>
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -14,9 +14,10 @@ class webController extends Controller
             'name' => 'required',
             'image' => 'required',
             'price' => 'required',
+            'description' => 'required'
         ]);
 
-        $input = $request->only('name' , 'price' , 'stock');
+        $input = $request->only('name' , 'price' , 'stock' , 'description');
 
         $input['store_id'] = $id;
 
@@ -25,8 +26,8 @@ class webController extends Controller
         $file_ext = $files->getClientOriginalExtension();
 
         if (in_array($file_ext, $ext)) {
-            $name = date("Y-m-d")."_".$input['username'].$files->getClientOriginalName();
-            $input['profile_image'] = $name;
+            $name = date("Y-m-d")."_".$input['name'].$files->getClientOriginalName();
+            $input['image'] = $name;
             $request->image->move(public_path() . "/images", $name);
         } else {
             return response([
@@ -83,20 +84,21 @@ class webController extends Controller
         $request->validate([
             'name' => 'required',
             'price' => 'required',
-            'stock' => 'required'
+            'stock' => 'required',
+            'description' => 'required'
         ]);
 
         $data = ModelsMenu::where('id' , $id)->first();
 
-        $input = $request->only('name' , 'price' , 'stock');
+        $input = $request->only('name' , 'price' , 'stock' , 'description');
 
         if ($files = $request->file('image')) {
             $ext = ['jpg', 'jpeg', 'png', 'gif', 'svg' , 'jfif'];
             $file_ext = $files->getClientOriginalExtension();
 
             if (in_array($file_ext, $ext)) {
-                $name = date("Y-m-d")."".$input['username'].$files->getClientOriginalName();
-                $input['profile_image'] = $name;
+                $name = date("Y-m-d")."".$input['name'].$files->getClientOriginalName();
+                $input['image'] = $name;
                 $files->move(public_path() . "/images", $name);
             } else {
                 return response([

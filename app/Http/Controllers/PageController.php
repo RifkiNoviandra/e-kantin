@@ -8,7 +8,15 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
+
     public function index()
+    {
+        $page_title = 'Login';
+
+        return view('pages.login', compact('page_title'));
+    }
+
+    public function dashboard()
     {
         $page_title = 'Dashboard';
         $page_description = 'Some description for the page';
@@ -21,7 +29,8 @@ class PageController extends Controller
         $data = User::all();
 
         return view('pages.masdatUser' , [
-            'user' => $data
+            'user' => $data ,
+            'page_title' => 'User'
         ]);
     }
 
@@ -30,13 +39,16 @@ class PageController extends Controller
         $data = Store::all();
 
         return view('pages.masdatStore' , [
-            'store' => $data
+            'store' => $data,
+            'page_title' => 'Store'
         ]);
     }
 
     public function topUp(){
 
-        return view('pages.TopUp');
+        return view('pages.TopUp' , [
+            'page_title' => 'Top Up Balance'
+        ]);
     }
 
     /**
