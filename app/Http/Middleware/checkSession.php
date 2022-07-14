@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class checkSession
 {
@@ -16,9 +17,12 @@ class checkSession
      */
     public function handle(Request $request, Closure $next)
     {
-        
-        
-
+        if(!Auth::user()){
+            
+            return view('pages.login' , [
+                'page_title' => 'login'
+            ]);
+        }
         return $next($request);
     }
 }

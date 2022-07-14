@@ -128,7 +128,8 @@ class transactionController extends Controller
         }
 
         return response([
-            'message' => 'success'
+            'message' => 'success',
+            'id' => $data->id
         ]);
     }
 }

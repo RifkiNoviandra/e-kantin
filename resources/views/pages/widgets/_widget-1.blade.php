@@ -60,16 +60,26 @@
             {{-- Row --}}
             <div class="row m-0">
                 <div class="col bg-light-warning px-6 py-8 rounded-xl mr-7 mb-7">
-                    {{ Metronic::getSVG("media/svg/icons/Media/Equalizer.svg", "svg-icon-3x svg-icon-warning d-block my-2") }}
-                    <a href="#" class="text-warning font-weight-bold font-size-h6">
-                        Weekly Sales
-                    </a>
+                    <div class="row ml-0 mr-0 align-items-center justify-content-center">
+                        {{ Metronic::getSVG("media/svg/icons/Media/Equalizer.svg", "svg-icon-3x svg-icon-warning d-block my-2") }}
+                        <div class="text-warning font-weight-bold font-size-h2 pl-3">
+                            {{ count($transaction_months) }}
+                        </div>
+                    </div>
+                    <p class="text-warning font-weight-bold font-size-h6 text-center">
+                        Month Sales
+                    </p>
                 </div>
                 <div class="col bg-light-primary px-6 py-8 rounded-xl mb-7">
-                    {{ Metronic::getSVG("media/svg/icons/Communication/Add-user.svg", "svg-icon-3x svg-icon-primary d-block my-2") }}
-                    <a href="#" class="text-primary font-weight-bold font-size-h6 mt-2">
-                        New Users
-                    </a>
+                    <div class="row ml-0 mr-0 align-items-center justify-content-center">
+                        {{ Metronic::getSVG("media/svg/icons/Communication/Add-user.svg", "svg-icon-3x svg-icon-primary d-block my-2") }}
+                        <div class="text-primary font-weight-bold font-size-h2 pl-3">
+                            {{ count($user) }}
+                        </div>
+                    </div>
+                    <p class="text-primary font-weight-bold font-size-h6 text-center">
+                        Active Users
+                    </p>
                 </div>
             </div>
             {{-- Row --}}

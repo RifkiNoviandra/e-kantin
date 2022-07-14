@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Auth\authController;
 use App\Http\Controllers\Admin\Store\Menu\dataController as MenuDataController;
 use App\Http\Controllers\Admin\Store\Menu\webController as MenuWebController;
 use App\Http\Controllers\Admin\Store\webController as StoreWebController;
@@ -21,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PageController::class ,'index']);
+Route::post('/login' , [authController::class , 'login'])->name('guest.login');
+
 Route::get('/datatables', [PageController::class ,'datatables']);
 Route::get('/ktdatatables', [PageController::class ,'ktDatatables']);
 Route::get('/select2', [PageController::class ,'select2']);
@@ -32,9 +35,9 @@ Route::get('/icons/lineawesome', [PageController::class ,'lineawesome']);
 Route::get('/icons/socicons', [PageController::class ,'socicons']);
 Route::get('/icons/svg', [PageController::class ,'svg']);
 
-Route::prefix('manage')->group(function() {
+Route::prefix('manage')->middleware('session')->group(function() {
 
-    Route::prefix('/' , [PageController::class , 'dashboard'])->name('dashboard');
+    Route::get('/dashboard' , [PageController::class , 'dashboard'])->name('dashboard');
 
     Route::get('/user' , [PageController::class , 'user'])->name('manage');
     Route::get('/user/topUpBalance' , [PageController::class , 'topUp'])->name('manage.topUp');

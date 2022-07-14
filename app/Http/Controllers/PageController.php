@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\Theme\Menu;
+use App\Models\Menu as ModelsMenu;
 use App\Models\Store;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -21,7 +24,12 @@ class PageController extends Controller
         $page_title = 'Dashboard';
         $page_description = 'Some description for the page';
 
-        return view('pages.dashboard', compact('page_title', 'page_description'));
+        $transaction_months = Transaction::where('pickup_date' , 'LIKE' , '%'.date('Y-m').'%')->get();
+        $user = User::where('status' , '1')->get();
+        $store = Store::where('status' , '1')->get();
+        $menu = ModelsMenu::all();
+
+        return view('pages.dashboard', compact('page_title', 'page_description' , 'transaction_months' , 'user' , 'store' , 'menu'));
     }
 
     public function user(){

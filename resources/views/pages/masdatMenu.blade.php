@@ -209,6 +209,7 @@
 {{-- vendors --}}
 
 <script>
+    $('.table').DataTable();
     var KTBootstrapSwitch = function() {
 
         // Private functions

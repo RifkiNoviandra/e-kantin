@@ -251,6 +251,7 @@
 <script src="{{ asset('plugins/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
 
 <script>
+    $('.table').DataTable();
     $(function() {
 
         $('.dtlInfo').click(function(e) {
