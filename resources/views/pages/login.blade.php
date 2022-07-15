@@ -41,7 +41,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
                 @if(isset($message))
-                <div id="emailHelp" class="form-text text-red">{{ $message }}</div>
+                <div id="emailHelp" class="form-text text-danger">{{ $message }}</div>
                 @endif
             </form>
         </div>

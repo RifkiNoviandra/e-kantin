@@ -46,9 +46,7 @@ class authController extends Controller
 
         Auth::guard('web')->login($data);
 
-        return view('pages.dashboard', [
-            'page_title' => 'dashboard'
-        ]);
+        return redirect(route('dashboard'));
     }
 
     public function logout(){

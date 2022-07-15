@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Classes\Theme\Menu;
 use App\Http\Controllers\Controller;
 use App\Models\DetailTransaction;
+use App\Models\Menu as ModelsMenu;
 use App\Models\Store;
 use App\Models\Transaction;
 use App\Models\User;
@@ -42,6 +44,8 @@ class transactionController extends Controller
             'total_price' => 'required',
         ]);
 
+        $status = true;
+
         $input = $request->only('order', 'user_id', 'total_price');
 
         $inserted_data = [];
@@ -77,7 +81,21 @@ class transactionController extends Controller
         foreach ($inserted_data as $key => $value) {
             $input_data['quantity_item'] = $input_data['quantity_item'] + count($value);
         }
+        
+        foreach ($inserted_data as $key => $value) {
+            foreach ($value as $key => $check_data) {
 
+                $menu_data_check = ModelsMenu::where('id' , $check_data['menu_id'])->first();
+
+                if ($menu_data_check->stock === 0 || $menu_data_check->stock - $check_data['quantity'] < 0) {
+                    return response(
+                        [
+                            'message' => 'Item Run Out'
+                        ]
+                    );
+                }
+            }
+        }
         $data = Transaction::create($input_data);
 
         if ($data) {
@@ -103,8 +121,6 @@ class transactionController extends Controller
 
             foreach ($inserted_data as $key => $value) {
 
-
-
                 foreach ($value as $key => $value_object) {
 
                     $detail_insert['store_id'] = $value_object['store_id'];
@@ -116,6 +132,11 @@ class transactionController extends Controller
                     $detail_insert['price'] = $value_object['price'];
 
                     DetailTransaction::create($detail_insert);
+
+                    $data_menu_check = ModelsMenu::where('id' , $value_object['menu_id'])->first();
+
+                    $data_menu_check->stock -= $value_object['quantity'];
+                    $data_menu_check->save();
                 }
             }
 

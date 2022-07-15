@@ -19,10 +19,11 @@ class checkSession
     {
         if(!Auth::user()){
             
-            return view('pages.login' , [
+            return response()->view('pages.login' , [
                 'page_title' => 'login'
             ]);
         }
+        
         return $next($request);
     }
 }

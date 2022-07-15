@@ -85,16 +85,26 @@
             {{-- Row --}}
             <div class="row m-0">
                 <div class="col bg-light-danger px-6 py-8 rounded-xl mr-7">
-                    {{ Metronic::getSVG("media/svg/icons/Design/Layers.svg", "svg-icon-3x svg-icon-danger d-block my-2") }}
-                    <a href="#" class="text-danger font-weight-bold font-size-h6 mt-2">
-                        Item Orders
-                    </a>
+                    <div class="row ml-0 mr-0 align-items-center justify-content-center">
+                        {{ Metronic::getSVG("media/svg/icons/Food/Dinner.svg", "svg-icon-3x svg-icon-danger d-block my-2") }}
+                        <div class="text-danger font-weight-bold font-size-h2 pl-3">
+                            {{ count($menu) }}
+                        </div>
+                    </div>
+                    <p class="text-danger font-weight-bold font-size-h6 text-center">
+                        Menus
+                    </p>
                 </div>
                 <div class="col bg-light-success px-6 py-8 rounded-xl">
-                    {{ Metronic::getSVG("media/svg/icons/Communication/Urgent-mail.svg", "svg-icon-3x svg-icon-success d-block my-2") }}
-                    <a href="#" class="text-success font-weight-bold font-size-h6 mt-2">
-                        Bug Reports
-                    </a>
+                <div class="row ml-0 mr-0 align-items-center justify-content-center">
+                {{ Metronic::getSVG("media/svg/icons/Shopping/Bag1.svg", "svg-icon-3x svg-icon-success d-block my-2") }}
+                        <div class="text-success font-weight-bold font-size-h2 pl-3">
+                            {{ count($store) }}
+                        </div>
+                    </div>
+                    <p class="text-success font-weight-bold font-size-h6 text-center">
+                        Stores
+                    </p>
                 </div>
             </div>
         </div>

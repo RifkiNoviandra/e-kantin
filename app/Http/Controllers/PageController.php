@@ -54,8 +54,11 @@ class PageController extends Controller
 
     public function topUp(){
 
+        $user = User::where('status' , '1')->get();
+
         return view('pages.TopUp' , [
-            'page_title' => 'Top Up Balance'
+            'page_title' => 'Top Up Balance',
+            'user' => $user
         ]);
     }
 

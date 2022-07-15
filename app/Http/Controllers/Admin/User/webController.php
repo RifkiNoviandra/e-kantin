@@ -33,11 +33,6 @@ class webController extends Controller
                         <input type="text" name="username" class="form-control form-control-solid" value="' . $data->username . '">
                     </div>
                     <div class="form-group">
-                            <label for="">Password</label>
-                            <input type="password" name="password" class="form-control form-control-solid">
-                            <span class="form-text text-muted">Opsional</span>
-                        </div>
-                    <div class="form-group">
                         <label for="">Name</label>
                         <input type="text" name="name" class="form-control form-control-solid" value="' . $data->name . '">
                     </div>

@@ -33,6 +33,18 @@ class dataController extends Controller
         ]);
     }
 
+    function getStores(Request $request)
+    {
+        $paginator = Store::where('name', 'like', "%{$request['search']['value']}%")
+            ->paginate($request->length, ['*'], 'page', ($request->start + $request->length) / $request->length);
+
+        return response([
+            'data' => $paginator->items(),
+            'recordsTotal' => $paginator->total(),
+            'recordsFiltered' => $paginator->total(),
+        ]);
+    }
+
 
     function create(Request $request)
     {

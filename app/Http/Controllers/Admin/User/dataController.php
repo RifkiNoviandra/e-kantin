@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\student_data;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -18,6 +19,19 @@ class dataController extends Controller
 
         return response([
             'data' => $data
+        ]);
+    }
+
+    function getUsers(Request $request)
+    {
+        $paginator = User::where('username', 'like', "%{$request['search']['value']}%")
+            ->orWhere('name', 'like', "%{$request['search']['value']}%")
+            ->paginate($request->length, ['*'], 'page', ($request->start + $request->length) / $request->length);
+
+        return response([
+            'data' => $paginator->items(),
+            'recordsTotal' => $paginator->total(),
+            'recordsFiltered' => $paginator->total(),
         ]);
     }
 
@@ -205,5 +219,42 @@ class dataController extends Controller
             'message' => 'success'
         ]);
 
+    }
+
+    function userOption(Request $request){
+        $data = User::where('status' , '1')->get();
+
+        $template = '';
+
+        foreach ($data as $key => $value) {
+            $template .= `<option value="`.$value->username.`">`.$value->username.` | `.$value->name.`</option>`;
+        }
+
+        return response(
+            $template
+        );
+    }
+
+    function migrateData(Request $request){
+
+        set_time_limit(0);
+
+        $data = student_data::all();
+        
+        foreach ($data as $key => $value) {
+            $input['username'] = $value->Username;
+            $input['name'] = $value->Name;
+            $input['class'] = $value->class;
+            $input['status'] = '1';
+            $input['password'] = Hash::make($value->Username);
+            $input['number'] = '081';
+            $input['identity_as'] = 'student';
+
+            User::create($input);
+        }
+
+        return response([
+            'success'
+        ]);
     }
 }

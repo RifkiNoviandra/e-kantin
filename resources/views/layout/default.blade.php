@@ -24,7 +24,7 @@ License: You must have a valid license purchased only from themeforest(the above
         
 
         {{-- Favicon --}}
-        <link rel="shortcut icon" href="{{ asset('media/logos/favicon.ico') }}" />
+        <link rel="shortcut icon" href="{{ asset('images/' . '20220715_170844_0000.png') }}" />
         <style>
             .hidden{
                 display: none!important;

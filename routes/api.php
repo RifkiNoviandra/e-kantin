@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Menu\dataController as MenuDataController;
 use App\Http\Controllers\Admin\Store\dataController as StoreDataController;
+use App\Http\Controllers\Admin\Store\Menu\dataController as StoreMenuDataController;
 use App\Http\Controllers\Admin\User\dataController;
 use App\Http\Controllers\Auth\authController;
 use App\Http\Controllers\Client\RandomDataController;
@@ -57,22 +58,28 @@ Route::prefix('admin')->group(function(){
 
     Route::prefix('/user')->group(function () {
         Route::get('/data', [dataController::class, 'getUser']);
+        Route::get('/data/dataTable', [dataController::class, 'getUsers']);
         Route::get('/data/{id}', [dataController::class, 'getUserById']);
         Route::post('/data', [dataController::class, 'create']);
         Route::post('/data/{id}', [dataController::class, 'update']);
         Route::delete('/data/{id}', [dataController::class, 'delete']);
 
         Route::post('/topup', [dataController::class, 'updateBalance']);
+        Route::post('/topup/option', [dataController::class, 'updateBalance'])->name('admin.topup.option');
+
+        Route::get('/data/dummy/migrate' , [dataController::class, 'migrateData']);
     });
     
     Route::prefix('/store')->group(function () {
         Route::get('/data', [StoreDataController::class, 'getStore']);
+        Route::get('/data/dataTable', [StoreDataController::class, 'getStores']);
         Route::get('/data/{id}', [StoreDataController::class, 'getStoreById']);
         Route::post('/data', [StoreDataController::class, 'create']);
         Route::post('/data/{id}', [StoreDataController::class, 'update']);
         Route::delete('/data/{id}', [StoreDataController::class, 'delete']);
 
         Route::get('/menu/{store_id}' , [MenuDataController::class , 'getMenuByStore']);
+        Route::get('/data/menu/dataTable/{id}', [StoreMenuDataController::class, 'getMenus']);
     });
 
     Route::prefix('/menu')->group(function () {
