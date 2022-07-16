@@ -90,7 +90,8 @@ class transactionController extends Controller
                 if ($menu_data_check->stock === 0 || $menu_data_check->stock - $check_data['quantity'] < 0) {
                     return response(
                         [
-                            'message' => 'Item Run Out'
+                            'message' => 'Item Run Out',
+                            'id' => 0
                         ]
                     );
                 }
