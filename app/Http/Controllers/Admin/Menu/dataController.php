@@ -122,7 +122,7 @@ class dataController extends Controller
             ] , 400);
         }
 
-        $input = $request->only('store_id' , 'name' , 'price' , 'description');
+        $input = $request->only('store_id' , 'name' , 'price' , 'description' , 'stock');
 
         if ($files = $request->file('image')) {
             $ext = ['jpg', 'jpeg', 'png', 'gif', 'svg' , 'jfif'];
