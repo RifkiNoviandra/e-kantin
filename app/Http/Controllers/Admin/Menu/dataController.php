@@ -64,7 +64,7 @@ class dataController extends Controller
             'description' => 'required'
         ]);
 
-        $input = $request->only('store_id' , 'name' , 'price' , 'description');
+        $input = $request->only('store_id' , 'name' , 'price' , 'description' , 'stock');
 
         $store_data = Store::where('id' , $request->store_id)->first();
 
