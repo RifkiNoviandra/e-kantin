@@ -48,7 +48,7 @@ class transactionController extends Controller
         $code = $request->only('code');
 
         if (strpos($code['code'], "-") !== false) {
-            list($d, $l) = explode('-', $code['code'], 2);
+            list($d, $l) = explode('-', $code['code']);
 
             $transaction = Transaction::where('transaction_unique_id', $d)->first();
 
@@ -80,14 +80,14 @@ class transactionController extends Controller
                     $confirmation2 = DetailTransaction::where('transaction_unique_id', $d)->where('status', 2)->get();
 
                     if (count($confirmation2) === 0) {
-                        $transaction->status = 1;
+                        $transaction->status = '1';
                         $transaction->save();
 
                         return response([
                             'message' => 'success'
                         ]);
                     } else {
-                        $transaction->status = 2;
+                        $transaction->status = '2';
                         $transaction->save();
 
                         return response([
