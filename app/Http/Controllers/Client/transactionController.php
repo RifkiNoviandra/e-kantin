@@ -68,7 +68,7 @@ class transactionController extends Controller
 
         $transaction_data_count = count($transaction_data);
 
-        $input_data['transaction_unique_id'] = "20533816" . substr($user_data->username , -2) . $transaction_data_count + 1;
+        $input_data['transaction_unique_id'] = date("Y") . substr($user_data->username , 5) . $transaction_data_count + 1;
 
         $input_data['user_id'] = $input['user_id'];
 
