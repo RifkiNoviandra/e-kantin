@@ -1,9 +1,13 @@
 <?php
 
 use App\Http\Controllers\Admin\Auth\authController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SettingDataController;
 use App\Http\Controllers\Admin\Store\Menu\dataController as MenuDataController;
 use App\Http\Controllers\Admin\Store\Menu\webController as MenuWebController;
+use App\Http\Controllers\Admin\Store\Transaction\transactionController;
 use App\Http\Controllers\Admin\Store\webController as StoreWebController;
+use App\Http\Controllers\Admin\Transaction\webController as TransactionWebController;
 use App\Http\Controllers\Admin\User\dataController;
 use App\Http\Controllers\Admin\User\topUpController;
 use App\Http\Controllers\Admin\User\webController;
@@ -55,11 +59,27 @@ Route::prefix('manage')->middleware('session')->group(function() {
     Route::put('/store/{id}' , [StoreWebController::class , 'update'])->name('manage.store.update');
     Route::get('/store/delete/{id}' , [StoreWebController::class , 'delete'])->name('manage.store.delete');
 
+    Route::get('/disable/store/{id}' , [StoreWebController::class , 'disableStore'])->name('manage.store.disable');
+    Route::get('/activate/store/{id}' , [StoreWebController::class , 'activateStore'])->name('manage.store.activate');
+
     Route::get('/store/menu/{id}' , [StoreWebController::class , 'menuList'])->name('manage.store.menu');
     Route::post('/store/menu/{id}' , [MenuWebController::class , 'create'])->name('manage.store.menu.create');
     Route::get('/store/menu/data/{id}' , [MenuWebController::class , 'checkData'])->name('manage.store.menu.data');
     Route::put('/store/menu/update/{id}' , [MenuWebController::class , 'update'])->name('manage.store..menu.update');
     Route::get('/store/menu/delete/{id}/{store_id}' , [MenuWebController::class , 'delete'])->name('manage.store.menu.delete');
+
+    Route::get('/store/transaction/{id}' , [transactionController::class , 'index'])->name('manage.store.transaction');
+    Route::post('/store/retrieve/{id}' , [transactionController::class , 'retrieveBalance'])->name('manage.store.retrieve');
+
+    Route::get('setting' , [SettingDataController::class , 'index'])->name('manage.setting');
+    Route::post('setting' , [SettingDataController::class , 'insert'])->name('manage.setting.insert');
+    Route::get('setting/disable/{id}' , [SettingDataController::class , 'disableSetting'])->name('manage.setting.disable');
+    Route::get('setting/activate/{id}' , [SettingDataController::class , 'activateSetting'])->name('manage.setting.activate');
+    Route::get('setting/delete/{id}' , [SettingDataController::class , 'delete'])->name('manage.setting.delete');
+
+    Route::get('transaction' , [PageController::class , 'transaction'])->name('transaction');
+    Route::get('transaction/{id}' , [TransactionWebController::class , 'checkData']);
+    Route::post('transaction/cancel' , [TransactionWebController::class , 'cancel'])->name('manage.transaction.cancel');
 });
 
 // Q]uick search dummy route to display html elements in search dropdown (header search)

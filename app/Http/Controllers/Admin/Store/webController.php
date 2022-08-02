@@ -20,6 +20,34 @@ class webController extends Controller
         ]);
     }
 
+    public function disableStore($id)
+    {
+        $data = Store::where('id', $id)->first();
+
+        if (!$data) {
+            return redirect(route('store'))->with('message');
+        }
+
+        $data->status = '2';
+        $data->save();
+
+        return redirect(route('store'))->with('message');
+    }
+
+    public function activateStore($id)
+    {
+        $data = Store::where('id', $id)->first();
+
+        if (!$data) {
+            return redirect(route('store'))->with('message');
+        }
+
+        $data->status = '1';
+        $data->save();
+
+        return redirect(route('store'))->with('message');
+    }
+
     function getStoreById(Request $request, $id)
     {
         $data = Store::where('id', $id)->first();
@@ -150,7 +178,8 @@ class webController extends Controller
         if (isset($request->status)) {
             if ($data->status = '1') {
                 $input['status'] = '2';
-            }if($data->status = '2'){
+            }
+            if ($data->status = '2') {
                 $input['status'] = '1';
             }
         } else {
@@ -212,13 +241,14 @@ class webController extends Controller
         return redirect(route('store'))->with('message', 'success');
     }
 
-    function menuList(Request $request , $id){
+    function menuList(Request $request, $id)
+    {
 
-        $store = Store::where('id' , $id)->first();
+        $store = Store::where('id', $id)->first();
 
-        $data = ModelsMenu::where('store_id' , $id)->get();
+        $data = ModelsMenu::where('store_id', $id)->get();
 
-        return view('pages.masdatMenu' , [
+        return view('pages.masdatMenu', [
             'data' => $data,
             'store' => $store
         ]);

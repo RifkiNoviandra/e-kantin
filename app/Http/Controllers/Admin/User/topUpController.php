@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\RequestTopUp;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -51,5 +52,13 @@ class topUpController extends Controller
                 'action' => '/manage/user/topUpBalance'
             ]
         );
+    }
+
+    public function getDataWIthUserIdTopUp($id){
+        $data = RequestTopUp::where('user_id' , $id)->get();
+
+        return response([
+            'data' => $data
+        ]);
     }
 }

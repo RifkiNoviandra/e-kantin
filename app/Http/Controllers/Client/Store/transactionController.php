@@ -11,10 +11,11 @@ use Illuminate\Http\Request;
 class transactionController extends Controller
 {
 
-    public function countTransactionDay(Request $request , $id){
-        $data = Transaction::with(['detail' => function($query) use($id) {
-            return $query->where('store_id' , $id);
-        }])->where('pickup_date' , 'LIKE' , '%'.date('Y-m-d').'%')->get();
+    public function countTransactionDay(Request $request, $id)
+    {
+        $data = Transaction::with(['detail' => function ($query) use ($id) {
+            return $query->where('store_id', $id);
+        }])->where('pickup_date', 'LIKE', '%' . date('Y-m-d') . '%')->get();
 
         $count_done = 0;
 
@@ -25,7 +26,8 @@ class transactionController extends Controller
                 foreach ($value->detail as $key => $val) {
                     if ($val->status == '0') {
                         $count_progress += 1;
-                    }if($val->status == '1'){
+                    }
+                    if ($val->status == '1') {
                         $count_done += 1;
                     }
                 }
@@ -71,29 +73,18 @@ class transactionController extends Controller
                 $detail = DetailTransaction::where('transaction_unique_id', $d)->where('store_id', $l)->update(['status' => '1']);
                 // $detail->update(['status' => 1]);
 
-                $confirmation = DetailTransaction::where('transaction_unique_id', $d)->where('status', 0)->get();
+                $confirmation = DetailTransaction::where('transaction_unique_id', $d)->where('status', '0')->get();
 
 
 
                 if (count($confirmation) === 0) {
 
-                    $confirmation2 = DetailTransaction::where('transaction_unique_id', $d)->where('status', 2)->get();
+                    $transaction->status = '1';
+                    $transaction->save();
 
-                    if (count($confirmation2) === 0) {
-                        $transaction->status = '1';
-                        $transaction->save();
-
-                        return response([
-                            'message' => 'success'
-                        ]);
-                    } else {
-                        $transaction->status = '2';
-                        $transaction->save();
-
-                        return response([
-                            'message' => 'success'
-                        ]);
-                    }
+                    return response([
+                        'message' => 'success'
+                    ]);
                 }
 
                 return response([
@@ -133,7 +124,7 @@ class transactionController extends Controller
 
         $data = Transaction::with(['detail' => function ($query) use ($id) {
             return $query->where('store_id', $id)->where('status', '1');
-        }, 'user'])->where('status', "1")->where('pickup_date' , '%'.date('Y-m-d').'%')->get();
+        }, 'user'])->where('status', "1")->where('pickup_date', '%' . date('Y-m-d') . '%')->get();
 
         if (isset($request->parameter)) {
             $search = strtoupper($request->parameter);
@@ -141,7 +132,7 @@ class transactionController extends Controller
                 return $query->where('store_id', $id)->where('status', '1');
             }, 'user' => function ($query) use ($search) {
                 return $query->where('name', 'LIKE', '%' . $search . '%');
-            }])->where('status', '1')->where('pickup_date' , '%'.date('Y-m-d').'%')->get();
+            }])->where('status', '1')->where('pickup_date', '%' . date('Y-m-d') . '%')->get();
 
             return response([
                 'data' => $data

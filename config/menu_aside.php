@@ -31,9 +31,23 @@ return [
             'root' => true,
         ],
         [
+            'title' => 'Transaction',
+            'icon' => 'media/svg/icons/Shopping/Barcode.svg',
+            'page' => '/manage/transaction',
+            'bullet' => 'line',
+            'root' => true,
+        ],
+        [
             'title' => 'Top Up',
             'icon' => 'media/svg/icons/Shopping/Money.svg',
             'page' => '/manage/user/topUpBalance',
+            'bullet' => 'line',
+            'root' => true,
+        ],
+        [
+            'title' => 'Setting',
+            'icon' => 'media/svg/icons/General/Settings-1.svg',
+            'page' => '/manage/setting',
             'bullet' => 'line',
             'root' => true,
         ],

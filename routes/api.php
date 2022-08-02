@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\Menu\dataController as MenuDataController;
 use App\Http\Controllers\Admin\Store\dataController as StoreDataController;
 use App\Http\Controllers\Admin\Store\Menu\dataController as StoreMenuDataController;
+use App\Http\Controllers\Admin\Transaction\dataController as TransactionDataController;
+use App\Http\Controllers\Admin\Transaction\webController;
 use App\Http\Controllers\Admin\User\dataController;
 use App\Http\Controllers\Auth\authController;
 use App\Http\Controllers\Client\RandomDataController;
@@ -88,5 +90,10 @@ Route::prefix('admin')->group(function(){
         Route::post('/data', [MenuDataController::class, 'create']);
         Route::put('/data/{id}', [MenuDataController::class, 'update']);
         Route::delete('/data/{id}', [MenuDataController::class, 'delete']);
+    });
+
+    Route::prefix('/transaction')->group(function(){
+        Route::get('/dataTable' , [TransactionDataController::class , 'getTransactions']);
+        Route::get('/data/{id}' , [webController::class , 'checkData']);
     });
 });

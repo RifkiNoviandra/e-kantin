@@ -30,8 +30,11 @@
                 <div class="col-1"></div>
                 <div class="form-group col-6">
                     <label>Amount:</label>
-                    <input type="number" name="balance" id='balance' class="form-control form-control-solid" placeholder="Enter amount" required />
-                    <span class="form-text text-muted">Angka 1-9 tanpa Rp ataupun tanda baca lain</span>
+                    <select class="form-control" name="balance" id="balance">
+                        @foreach($setting as $val)
+                            <option value="{{ $val->value }}"> {{ $val->value }} </option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="card-footer">
                     <button data-url="{{ route('manage.topUp.check') }}" type="button" class="btn btn-primary mr-2 dtlInfo">Submit</button>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\RequestTopUp;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -240,10 +241,16 @@ class webController extends Controller
         $data->balance = $data->balance + $request->balance;
 
         if (!$data->save()) {
-            return response([
-                'message' => 'Error When Processing'
-            ], 400);
+            return redirect(route('manage.topUp'))->with('message', 'Error When Processing');
         }
+
+        $data_topUp['user_id'] = $data->id;
+        
+        $data_topUp['balance'] = $request->balance;
+
+        $data_topUp['status'] = '1';
+
+        $topUp = RequestTopUp::create($data_topUp);
 
         return redirect(route('manage.topUp'))->with('message', 'success');
     }

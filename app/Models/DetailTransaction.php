@@ -16,4 +16,9 @@ class DetailTransaction extends Model
         return $this->belongsTo(Menu::class , 'menu_id' , 'id');
     }
 
+    function store(){
+        return $this->belongsTo(Store::class , 'store_id' , 'id');
+    }
+    
+
 }

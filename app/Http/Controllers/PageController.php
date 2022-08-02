@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes\Theme\Menu;
 use App\Models\Menu as ModelsMenu;
 use App\Models\Store;
+use App\Models\topupSetting;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -32,6 +33,12 @@ class PageController extends Controller
         return view('pages.dashboard', compact('page_title', 'page_description' , 'transaction_months' , 'user' , 'store' , 'menu'));
     }
 
+    public function transaction(){
+        $page_title = 'Transaction';
+
+        return view('pages.transaction' , compact('page_title'));
+    }
+
     public function user(){
 
         $data = User::all();
@@ -56,8 +63,11 @@ class PageController extends Controller
 
         $user = User::where('status' , '1')->get();
 
+        $setting = topupSetting::where('status' , '1')->get();
+
         return view('pages.TopUp' , [
             'page_title' => 'Top Up Balance',
+            'setting' => $setting,
             'user' => $user
         ]);
     }

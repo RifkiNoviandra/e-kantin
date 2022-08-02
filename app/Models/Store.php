@@ -12,4 +12,8 @@ class Store extends Model
     protected $guarded = [];
     protected $hidden = ['password'];
     public $timestamps = false;
+
+    function detail(){
+        return $this->hasMany(DetailTransaction::class , 'store_id' , 'id');
+    }
 }

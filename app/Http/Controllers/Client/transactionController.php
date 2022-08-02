@@ -74,7 +74,7 @@ class transactionController extends Controller
 
         $input_data['total_price'] = $input['total_price'];
 
-        $input_data['pickup_date'] = date('Y-m-d');
+        $input_data['pickup_date'] = date('Y-m-d H:i:s');
 
         $input_data['quantity_item'] = 0;
 
