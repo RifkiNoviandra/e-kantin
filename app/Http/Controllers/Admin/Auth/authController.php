@@ -49,6 +49,33 @@ class authController extends Controller
         return redirect(route('dashboard'));
     }
 
+    function loginApp(Request $request)
+    {
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required'
+        ]);
+
+        $input = $request->only('username', 'password');
+
+        $data = User::where('username', $input['username'])->where('identity_as', 'admin')->first();
+
+        if (!$data) {
+            return response([
+                'message' => 'Wrong Login Credentials'
+            ],400);
+        }
+        if (!Hash::check($input['password'] , $data->password)) {
+            return response([
+                'message' => 'Wrong Password'
+            ] , 400);
+        }
+
+        return response([
+            'data' => $data
+        ]);
+    }
+
     public function logout(){
         Auth::logout();
         FacadesSession::flush();

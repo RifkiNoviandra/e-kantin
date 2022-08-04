@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Auth\authController as AuthAuthController;
 use App\Http\Controllers\Admin\Menu\dataController as MenuDataController;
 use App\Http\Controllers\Admin\Store\dataController as StoreDataController;
 use App\Http\Controllers\Admin\Store\Menu\dataController as StoreMenuDataController;
@@ -30,7 +31,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('client')->group(function () {
 
     Route::prefix('store')->group(function () {
-        Route::post('login', [authController::class, 'Storelogin']);
+        Route::post('login', [AuthAuthController::class, 'loginApp']);
         Route::post('logout/{id}', [authController::class, 'Storelogout']);
         Route::post('transaction/accept', [StoreTransactionController::class, 'acceptTransactionComplete']);
         Route::post('transaction/{id}', [StoreTransactionController::class, 'listTransaction']);
