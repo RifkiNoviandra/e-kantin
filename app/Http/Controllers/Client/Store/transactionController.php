@@ -142,8 +142,7 @@ class transactionController extends Controller
 
     function getTransactionByIdAndStore(Request $request, $id)
     {
-        $data = Transaction::with(['user', 'detail'
-        ])->where('id', $id)->first();
+        $data = Transaction::with(['user', 'detail'])->where('id', $id)->first();
 
         return response([
             'data' => $data

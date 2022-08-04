@@ -37,7 +37,7 @@ Route::prefix('client')->group(function () {
         Route::post('transaction/{id}', [StoreTransactionController::class, 'listTransaction']);
         Route::post('transaction/done/{id}', [StoreTransactionController::class, 'listTransactionDone']);
         Route::post('transaction/count/{id}', [StoreTransactionController::class, 'countTransactionDay']);
-        Route::post('transaction/detail/{id}/{store_id}', [StoreTransactionController::class, 'getTransactionByIdAndStore']);
+        Route::post('transaction/detail/{id}', [StoreTransactionController::class, 'getTransactionByIdAndStore']);
     });
 
     Route::prefix('user')->group(function () {
