@@ -103,10 +103,6 @@ class transactionController extends Controller
 
         $code = $request->only('code');
 
-        return response([
-            'data' => Transaction::all()
-        ]);
-
         $transaction = Transaction::where('transaction_unique_id', $code)->first();
 
         if ($transaction) {
@@ -124,9 +120,19 @@ class transactionController extends Controller
                 $value->status = '1';
                 $value->save();
             }
+            // $detail->update(['status' => 1]);
 
-            $transaction->status = '1';
-            $transaction->save();
+            $confirmation = DetailTransaction::where('transaction_unique_id', $code)->where('status', '0')->get();
+
+            if (count($confirmation) === 0) {
+
+                $transaction->status = '1';
+                $transaction->save();
+
+                return response([
+                    'message' => 'success'
+                ] , 200);
+            }
 
             return response([
                 'message' => 'success'
@@ -158,7 +164,7 @@ class transactionController extends Controller
     function listTransactionDone(Request $request)
     {
 
-        $data = Transaction::with(['detail', 'user'])->where('status', '1')->where('pickup_date', "LIKE", '%' . date('Y-m-d') . '%')->get();
+        $data = Transaction::with(['detail','user'])->where('status', '1')->where('pickup_date', "LIKE" ,'%' . date('Y-m-d') . '%')->get();
 
         if (isset($request->parameter)) {
             $search = strtoupper($request->parameter);
