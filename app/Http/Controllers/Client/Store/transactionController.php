@@ -113,7 +113,7 @@ class transactionController extends Controller
 
                 $store = Store::where('id', $value->store_id)->first();
 
-                $store->balance = $store->balance + $value->total_price;
+                $store->balance = $store->balance + $value->price;
 
                 $store->save();
 
