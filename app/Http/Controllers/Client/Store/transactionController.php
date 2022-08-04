@@ -40,6 +40,60 @@ class transactionController extends Controller
         ]);
     }
 
+    // function acceptTransactionComplete(Request $request)
+    // {
+
+    //     $request->validate([
+    //         'code' => 'required',
+    //     ]);
+
+    //     $code = $request->only('code');
+
+    //     if (strpos($code['code'], "-") !== false) {
+    //         list($d, $l) = explode('-', $code['code']);
+
+    //         $transaction = Transaction::where('transaction_unique_id', $d)->first();
+
+    //         if ($transaction) {
+
+    //             $detail_data = DetailTransaction::where('transaction_unique_id', $d)->where('store_id', $l)->get();
+
+    //             $earning = 0;
+
+    //             foreach ($detail_data as $key => $value) {
+    //                 $earning = $earning + $value->price;
+    //             }
+
+    //             $store = Store::where('id', $l)->first();
+
+    //             $store->balance = $store->balance + $earning;
+
+    //             $store->save();
+
+    //             $detail = DetailTransaction::where('transaction_unique_id', $d)->where('store_id', $l)->update(['status' => '1']);
+    //             // $detail->update(['status' => 1]);
+
+    //             $confirmation = DetailTransaction::where('transaction_unique_id', $d)->where('status', '0')->get();
+
+
+
+    //             if (count($confirmation) === 0) {
+
+    //                 $transaction->status = '1';
+    //                 $transaction->save();
+
+    //                 return response([
+    //                     'message' => 'success'
+    //                 ]);
+    //             }
+
+    //             return response([
+    //                 'message' => 'success'
+    //             ]);
+    //         }
+    //     }
+    // }
+
     function acceptTransactionComplete(Request $request)
     {
 
@@ -49,59 +103,51 @@ class transactionController extends Controller
 
         $code = $request->only('code');
 
-        if (strpos($code['code'], "-") !== false) {
-            list($d, $l) = explode('-', $code['code']);
+        $transaction = Transaction::where('transaction_unique_id', $code)->first();
 
-            $transaction = Transaction::where('transaction_unique_id', $d)->first();
+        if ($transaction) {
 
-            if ($transaction) {
+            $detail_data = DetailTransaction::where('transaction_unique_id', $code)->get();
 
-                $detail_data = DetailTransaction::where('transaction_unique_id', $d)->where('store_id', $l)->get();
+            foreach ($detail_data as $key => $value) {
 
-                $earning = 0;
+                $store = Store::where('id', $value->store_id)->first();
 
-                foreach ($detail_data as $key => $value) {
-                    $earning = $earning + $value->price;
-                }
-
-                $store = Store::where('id', $l)->first();
-
-                $store->balance = $store->balance + $earning;
+                $store->balance = $store->balance + $value->total_price;
 
                 $store->save();
 
-                $detail = DetailTransaction::where('transaction_unique_id', $d)->where('store_id', $l)->update(['status' => '1']);
-                // $detail->update(['status' => 1]);
+                $value->status = '1';
+                $value->save();
+            }
+            // $detail->update(['status' => 1]);
 
-                $confirmation = DetailTransaction::where('transaction_unique_id', $d)->where('status', '0')->get();
+            $confirmation = DetailTransaction::where('transaction_unique_id', $code)->where('status', '0')->get();
 
+            if (count($confirmation) === 0) {
 
-
-                if (count($confirmation) === 0) {
-
-                    $transaction->status = '1';
-                    $transaction->save();
-
-                    return response([
-                        'message' => 'success'
-                    ]);
-                }
+                $transaction->status = '1';
+                $transaction->save();
 
                 return response([
                     'message' => 'success'
                 ]);
             }
+
+            return response([
+                'message' => 'success'
+            ]);
         }
     }
 
     function listTransaction(Request $request, $id)
     {
 
-        $data = Transaction::with(['detail','user'])->where('status', "0")->get();
+        $data = Transaction::with(['detail', 'user'])->where('status', "0")->get();
 
         if (isset($request->parameter)) {
             $search = strtoupper($request->parameter);
-            $data = Transaction::with(['detail' , 'user' => function ($query) use ($search) {
+            $data = Transaction::with(['detail', 'user' => function ($query) use ($search) {
                 return $query->where('name', 'LIKE', '%' . $search . '%');
             }])->where('status', '0')->get();
 
