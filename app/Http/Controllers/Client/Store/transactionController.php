@@ -161,18 +161,14 @@ class transactionController extends Controller
         }
     }
 
-    function listTransactionDone(Request $request, $id)
+    function listTransactionDone(Request $request)
     {
 
-        $data = Transaction::with(['detail' => function ($query) use ($id) {
-            return $query->where('store_id', $id)->where('status', '1');
-        }, 'user'])->where('status', "1")->where('pickup_date', '%' . date('Y-m-d') . '%')->get();
+        $data = Transaction::with(['detail','user'])->where('status', '1')->where('pickup_date', "LIKE" ,'%' . date('Y-m-d') . '%')->get();
 
         if (isset($request->parameter)) {
             $search = strtoupper($request->parameter);
-            $data = Transaction::with(['detail' => function ($query) use ($id) {
-                return $query->where('store_id', $id)->where('status', '1');
-            }, 'user' => function ($query) use ($search) {
+            $data = Transaction::with(['detail', 'user' => function ($query) use ($search) {
                 return $query->where('name', 'LIKE', '%' . $search . '%');
             }])->where('status', '1')->where('pickup_date', '%' . date('Y-m-d') . '%')->get();
 
