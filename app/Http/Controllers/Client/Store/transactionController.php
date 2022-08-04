@@ -103,6 +103,10 @@ class transactionController extends Controller
 
         $code = $request->only('code');
 
+        return response([
+            'data' => Transaction::all()
+        ]);
+
         $transaction = Transaction::where('transaction_unique_id', $code)->first();
 
         if ($transaction) {
