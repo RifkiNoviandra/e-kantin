@@ -95,6 +95,7 @@ Route::prefix('admin')->group(function(){
 
     Route::prefix('/transaction')->group(function(){
         Route::get('/dataTable' , [TransactionDataController::class , 'getTransactions']);
+        Route::get('/data' , [TransactionDataController::class , 'getTransaction']);
         Route::get('/data/{id}' , [webController::class , 'checkData']);
     });
 });
