@@ -107,10 +107,6 @@ class transactionController extends Controller
 
         if ($transaction) {
 
-            return response([
-                "ok"
-            ]);
-
             $detail_data = DetailTransaction::where('transaction_unique_id', $code)->get();
 
             foreach ($detail_data as $key => $value) {
