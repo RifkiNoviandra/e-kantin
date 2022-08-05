@@ -107,6 +107,10 @@ class transactionController extends Controller
 
         if ($transaction) {
 
+            return response([
+                "ok"
+            ]);
+
             $detail_data = DetailTransaction::where('transaction_unique_id', $code)->get();
 
             foreach ($detail_data as $key => $value) {
@@ -114,7 +118,6 @@ class transactionController extends Controller
                 $store = Store::where('id', $value->store_id)->first();
 
                 $store->balance = $store->balance + $value->price;
-
                 $store->save();
 
                 $value->status = '1';
