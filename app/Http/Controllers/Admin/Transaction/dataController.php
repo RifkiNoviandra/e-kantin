@@ -10,14 +10,21 @@ class dataController extends Controller
 {
     function getTransactions(Request $request)
     {
-        $paginator = Transaction::where('transaction_unique_id', 'like', "%{$request['search']['value']}%")
-        ->where('status' , '0')
-        ->paginate($request->length, ['*'], 'page', ($request->start + $request->length) / $request->length);
+
+        $data = Transaction::all();
+
+        // $paginator = Transaction::where('transaction_unique_id', 'like', "%{$request['search']['value']}%")
+        // ->where('status' , '0')
+        // ->paginate($request->length, ['*'], 'page', ($request->start + $request->length) / $request->length);
+
+        // return response([
+        //     'data' => $paginator->items(),
+        //     'recordsTotal' => $paginator->total(),
+        //     'recordsFiltered' => $paginator->total(),
+        // ]);
 
         return response([
-            'data' => $paginator->items(),
-            'recordsTotal' => $paginator->total(),
-            'recordsFiltered' => $paginator->total(),
+            $data
         ]);
     }
 }
