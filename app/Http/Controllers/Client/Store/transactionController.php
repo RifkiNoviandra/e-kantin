@@ -172,7 +172,7 @@ class transactionController extends Controller
             }])->where('status', '1')->where('pickup_date', '%' . date('Y-m-d') . '%')->get();
 
             return response([
-                'data' => $data
+                $data
             ]);
         } else {
             return response([
