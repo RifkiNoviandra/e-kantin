@@ -130,7 +130,7 @@ class transactionController extends Controller
                 $transaction->save();
 
                 return response([
-                    'message' => 'success'
+                    'message' => 'OK'
                 ] , 200);
             }
 
