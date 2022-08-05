@@ -163,7 +163,7 @@ class transactionController extends Controller
     function listTransactionDone(Request $request)
     {
 
-        $data = Transaction::with(['detail','user'])->where('status', '1')->where('pickup_date', 'LIKE' ,'%2022-08%')->get();
+        $data = Transaction::with(['detail','user'])->where('status', '1')->where('pickup_date', 'LIKE' ,'%2022-08%')->query();
 
         if (isset($request->parameter)) {
             $search = strtoupper($request->parameter);
